@@ -1,0 +1,265 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: halconfig
+  namespace: spinnaker
+data:
+  config: |
+    currentDeployment: default
+    deploymentConfigurations:
+    - name: default
+      version: 1.10.5
+      providers:
+        appengine:
+          enabled: false
+          accounts: []
+        aws:
+          enabled: false
+          accounts: []
+          defaultKeyPairTemplate: '{{name}}-keypair'
+          defaultRegions:
+          - name: us-west-2
+          defaults:
+            iamRole: BaseIAMRole
+        azure:
+          enabled: false
+          accounts: []
+          bakeryDefaults:
+            templateFile: azure-linux.json
+            baseImages: []
+        dcos:
+          enabled: false
+          accounts: []
+          clusters: []
+        dockerRegistry:
+          enabled: false
+          accounts:
+          - name: my-docker-registry
+            requiredGroupMembership: []
+            providerVersion: V1
+            permissions: {}
+            address: https://index.docker.io
+            username: docker_repo_username
+            password: docker_repo_password
+            email: example@demo.com
+            cacheIntervalSeconds: 30
+            clientTimeoutMillis: 60000
+            cacheThreads: 1
+            paginateSize: 100
+            sortTagsByDate: false
+            trackDigests: false
+            insecureRegistry: false
+            repositories:
+            - docker_repo
+          primaryAccount: my-docker-registry
+        google:
+          enabled: false
+          accounts: []
+          bakeryDefaults:
+            templateFile: gce.json
+            baseImages: []
+            zone: us-central1-f
+            network: default
+            useInternalIp: false
+        kubernetes:
+          enabled: true
+          accounts:
+          - name: my-k8s-account-v2
+            requiredGroupMembership: []
+            providerVersion: V2
+            permissions: {}
+            dockerRegistries: []
+            configureImagePullSecrets: true
+            cacheThreads: 1
+            namespaces: []
+            omitNamespaces: []
+            kinds: []
+            omitKinds: []
+            customResources: []
+            cachingPolicies: []
+            kubeconfigFile: /home/builder/.kube/config
+            oauthScopes: []
+            oAuthScopes: []
+            onlySpinnakerManaged: false
+          primaryAccount: my-k8s-account-v2
+        openstack:
+          enabled: false
+          accounts: []
+          bakeryDefaults:
+            baseImages: []
+        oraclebmcs:
+          enabled: false
+          accounts: []
+      deploymentEnvironment:
+        size: SMALL
+        customSizing:
+          spin-clouddriver:
+            requests:
+              memory: 4Gi
+              cpu: 2000m
+          spin-clouddriver-bootstrap:
+            requests:
+              memory: 4Gi
+              cpu: 1000m
+          spin-deck:
+            requests:
+              memory: 2Gi
+              cpu: 1000m
+          spin-echo:
+            replica: 1
+            requests:
+              memory: 1000Mi
+              cpu: 500m
+          spin-front50:
+            requests:
+              memory: 2000Mi
+              cpu: 500m
+          spin-gate:
+            requests:
+              memory: 2000Mi
+              cpu: 500m
+          spin-igor:
+            replica: 1
+            requests:
+              memory: 1000Mi
+              cpu: 500m
+          spin-orca:
+            requests:
+              memory: 4000Mi
+              cpu: 2000m
+          spin-orca-bootstrap:
+            requests:
+              memory: 2000Mi
+              cpu: 1000m
+          spin-redis:
+            requests:
+              memory: 1000Mi
+              cpu: 1000m
+          spin-rosco:
+            requests:
+              memory: 1000Mi
+              cpu: 500m
+        type: Distributed
+        accountName: SPINNAKER_ACCOUNT
+        updateVersions: true
+        location: spinnaker 
+        consul:
+          enabled: false
+        vault:
+          enabled: false
+        gitConfig:
+          upstreamUser: spinnaker
+      persistentStorage:
+        persistentStoreType: s3
+        azs: {}
+        gcs:
+          jsonPath: /home/builder/.gcp/gcs-account.json
+          project: demo-project
+          bucket: dev-k8-bucket
+          rootFolder: front50
+          bucketLocation: us
+        redis: {}
+        s3:
+          bucket: test
+          rootFolder: front50
+          region: us-west-2
+          endpoint: http://minio_endpoint:9000
+          accessKeyId: opsmx123456
+          secretAccessKey: opsmx123456
+        oraclebmcs: {}
+      features:
+        auth: false
+        fiat: false
+        chaos: false
+        entityTags: false
+        jobs: false
+      metricStores:
+        datadog:
+          enabled: false
+        prometheus:
+          enabled: false
+          add_source_metalabels: true
+        stackdriver:
+          enabled: false
+        period: 30
+        enabled: false
+      notifications:
+        slack:
+          enabled: false
+      timezone: America/Los_Angeles
+      ci:
+        jenkins:
+          enabled: false
+          masters: []
+        travis:
+          enabled: false
+          masters: []
+      security:
+        apiSecurity:
+          ssl:
+            enabled: false
+        uiSecurity:
+          ssl:
+            enabled: false
+        authn:
+          oauth2:
+            enabled: false
+            client: {}
+            resource: {}
+            userInfoMapping: {}
+          saml:
+            enabled: false
+          ldap:
+            enabled: false
+            url: 
+            userDnPattern: 
+          x509:
+            enabled: false
+          enabled: false
+        authz:
+          groupMembership:
+            service: EXTERNAL
+            google:
+              roleProviderType: GOOGLE
+            github:
+              roleProviderType: GITHUB
+            file:
+              roleProviderType: FILE
+          enabled: true
+      artifacts:
+        gcs:
+          enabled: false
+          accounts: []
+        github:
+          enabled: false
+          accounts: []
+        http:
+          enabled: false
+          accounts: []
+      pubsub:
+        google:
+          enabled: false
+          subscriptions: []
+      canary:
+        enabled: false
+        serviceIntegrations:
+        - name: google
+          enabled: false
+          accounts: []
+          gcsEnabled: false
+          stackdriverEnabled: false
+        - name: prometheus
+          enabled: false
+          accounts: []
+        - name: datadog
+          enabled: false
+          accounts: []
+        - name: aws
+          enabled: false
+          accounts: []
+          s3Enabled: false
+        reduxLoggerEnabled: true
+        defaultJudge: NetflixACAJudge-v1.0
+        stagesEnabled: true
+        templatesEnabled: true
+        showAllConfigsEnabled: true
