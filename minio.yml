@@ -65,10 +65,10 @@ kind: Service
 metadata:
   name: minio-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 9000
-      nodePort: 39000
+      targetPort: 9000
       protocol: TCP
   selector:
     app: minio
