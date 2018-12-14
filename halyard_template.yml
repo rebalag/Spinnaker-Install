@@ -108,4 +108,4 @@ metadata:
   name: artifactsconfig
 data: 
   redis.yml: |
-    artifactId: opsmx11/redis:v1.0.1
+    artifactId: opsmx11/redis:v8.7
