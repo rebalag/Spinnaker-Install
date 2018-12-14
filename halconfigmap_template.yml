@@ -8,7 +8,7 @@ data:
     currentDeployment: default
     deploymentConfigurations:
     - name: default
-      version: 1.10.5
+      version: 1.11.0
       providers:
         appengine:
           enabled: false
@@ -64,7 +64,7 @@ data:
         kubernetes:
           enabled: true
           accounts:
-          - name: my-k8s-account-v2
+          - name: SPINNAKER_ACCOUNT
             requiredGroupMembership: []
             providerVersion: V2
             permissions: {}
@@ -81,7 +81,7 @@ data:
             oauthScopes: []
             oAuthScopes: []
             onlySpinnakerManaged: false
-          primaryAccount: my-k8s-account-v2
+          primaryAccount: SPINNAKER_ACCOUNT
         openstack:
           enabled: false
           accounts: []
@@ -163,9 +163,9 @@ data:
           bucket: test
           rootFolder: front50
           region: us-west-2
-          endpoint: http://minio_endpoint:9000
+          endpoint: http://minio-service.spinnaker.svc
           accessKeyId: opsmx123456
-          secretAccessKey: opsmx123456
+          secretAccessKey: opsmx_123456
         oraclebmcs: {}
       features:
         auth: false
