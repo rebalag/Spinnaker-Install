@@ -198,11 +198,11 @@ data:
         apiSecurity:
           ssl:
             enabled: false
-            overrideBaseUrl: http://spin-gate.abc.com
+          overrideBaseUrl: http://spin-gate.abc.com
         uiSecurity:
           ssl:
             enabled: false
-            overrideBaseUrl: http://spin-deck.abc.com
+          overrideBaseUrl: http://spin-deck.abc.com
         authn:
           oauth2:
             enabled: false
