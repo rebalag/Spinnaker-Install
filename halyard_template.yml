@@ -50,13 +50,6 @@ spec:
         - name: externalIPconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/gate.yml
           subPath: gate.yml
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
       volumes:
       - name: halconfig
         configMap:
