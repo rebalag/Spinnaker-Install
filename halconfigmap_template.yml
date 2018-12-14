@@ -31,27 +31,6 @@ data:
           enabled: false
           accounts: []
           clusters: []
-        dockerRegistry:
-          enabled: false
-          accounts:
-          - name: my-docker-registry
-            requiredGroupMembership: []
-            providerVersion: V1
-            permissions: {}
-            address: https://index.docker.io
-            username: docker_repo_username
-            password: docker_repo_password
-            email: example@demo.com
-            cacheIntervalSeconds: 30
-            clientTimeoutMillis: 60000
-            cacheThreads: 1
-            paginateSize: 100
-            sortTagsByDate: false
-            trackDigests: false
-            insecureRegistry: false
-            repositories:
-            - docker_repo
-          primaryAccount: my-docker-registry
         google:
           enabled: false
           accounts: []
@@ -198,9 +177,11 @@ data:
         apiSecurity:
           ssl:
             enabled: false
+            overrideBaseUrl: http://spin-gate.abc.com
         uiSecurity:
           ssl:
             enabled: false
+            overrideBaseUrl: http://spin-deck.abc.com
         authn:
           oauth2:
             enabled: false
