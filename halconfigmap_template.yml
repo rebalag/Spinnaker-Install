@@ -132,11 +132,7 @@ data:
         persistentStoreType: s3
         azs: {}
         gcs:
-          jsonPath: /home/builder/.gcp/gcs-account.json
-          project: demo-project
-          bucket: dev-k8-bucket
           rootFolder: front50
-          bucketLocation: us
         redis: {}
         s3:
           bucket: test
