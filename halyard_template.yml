@@ -62,7 +62,7 @@ spec:
       - name: externalipconfig
         configMap: 
           defaultMode: 420
-          name: externalIPconfig
+          name: externalipconfig
 
 ---
 
