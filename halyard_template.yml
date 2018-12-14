@@ -50,6 +50,9 @@ spec:
         - name: externalipconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/gate.yml
           subPath: gate.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
+          subPath: redis.yml         
       volumes:
       - name: halconfig
         configMap:
@@ -63,6 +66,10 @@ spec:
         configMap: 
           defaultMode: 420
           name: externalipconfig
+      - name: artifactsconfig
+        configMap: 
+          defaultMode: 420
+          name: artifactsconfig
 
 ---
 
@@ -93,3 +100,12 @@ data:
     host: 0.0.0.0
   deck.yml: |
     host: 0.0.0.0
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: spinnaker
+  name: artifactsconfig
+data: 
+  redis.yml: |
+  artifactId: opsmx11/redis:v1.0.0
