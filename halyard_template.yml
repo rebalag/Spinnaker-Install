@@ -44,10 +44,10 @@ spec:
         - name: kubeconfig
           mountPath: /home/builder/staging/.kube/config
           subPath: config
-        - name: externalIPconfig
+        - name: externalipconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/deck.yml
           subPath: deck.yml
-        - name: externalIPconfig
+        - name: externalipconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/gate.yml
           subPath: gate.yml
       volumes:
@@ -59,7 +59,7 @@ spec:
         secret:
           defaultMode: 420
           secretName: kubeconfig
-      - name: externalIPconfig
+      - name: externalipconfig
         configMap: 
           defaultMode: 420
           name: externalIPconfig
@@ -87,7 +87,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: spinnaker
-  name: externalIPconfig
+  name: externalipconfig
 data:
   gate.yml: |
     host: 0.0.0.0
