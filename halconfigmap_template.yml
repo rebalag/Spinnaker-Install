@@ -114,10 +114,6 @@ data:
             requests:
               memory: 1000Mi
               cpu: 1000m
-          spin-rosco:
-            requests:
-              memory: 2000Mi
-              cpu: 2000m
         type: Distributed
         accountName: SPINNAKER_ACCOUNT
         updateVersions: true
