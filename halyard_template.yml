@@ -52,7 +52,10 @@ spec:
           subPath: gate.yml
         - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
-          subPath: redis.yml         
+          subPath: redis.yml 
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/front50-local.yml
+          subPath: front50-local.yml
       volumes:
       - name: halconfig
         configMap:
@@ -109,3 +112,6 @@ metadata:
 data: 
   redis.yml: |
     artifactId: opsmx11/redis:v3
+  front50-local.yml: |
+    spinnaker.s3.versioning: false
+
