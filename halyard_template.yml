@@ -86,9 +86,6 @@ spec:
         - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
           subPath: orca-bootstrap.yml
-        - name: artifactsconfig
-          mountPath: /home/builder/staging/.hal/default/service-settings/redis-bootstrap.yml
-          subPath: redis-bootstrap.yml
       volumes:
       - name: halconfig
         configMap:
@@ -152,11 +149,7 @@ data:
     spinnaker.s3.versioning: false
   redis.yml: |
     artifactId: docker.io/opsmx11/redis:v3
-    enabled: false
-  redis-bootstrap.yml: |
-    artifactId: docker.io/opsmx11/redis:v3
     enabled: true
-    skipLifeCycleManagement: false
   gate.yml: |
     artifactId: docker.io/opsmx11/gate:1.3.0-20181207134351
     enabled: false
