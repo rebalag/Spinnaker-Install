@@ -154,10 +154,8 @@ data:
     artifactId: docker.io/opsmx11/gate:1.3.0-20181207134351
     enabled: false
     skipLifeCycleManagement: true
-    host: 0.0.0.0
   deck.yml: |
     artifactId: docker.io/opsmx11/deck:2.6.0-20181213100452
-    host: 0.0.0.0
   igor-local.yml: |
     spinnaker:
       pollingSafeguard:
