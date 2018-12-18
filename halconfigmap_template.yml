@@ -8,7 +8,7 @@ data:
     currentDeployment: default
     deploymentConfigurations:
     - name: default
-      version: 1.10.5
+      version: 1.11.0
       providers:
         appengine:
           enabled: false
@@ -71,49 +71,7 @@ data:
           accounts: []
       deploymentEnvironment:
         size: SMALL
-        customSizing:
-          spin-clouddriver:
-            requests:
-              memory: 4Gi
-              cpu: 2000m
-          spin-clouddriver-bootstrap:
-            requests:
-              memory: 4Gi
-              cpu: 1000m
-          spin-deck:
-            requests:
-              memory: 2Gi
-              cpu: 1000m
-          spin-echo:
-            replica: 1
-            requests:
-              memory: 1000Mi
-              cpu: 500m
-          spin-front50:
-            requests:
-              memory: 2000Mi
-              cpu: 500m
-          spin-gate:
-            requests:
-              memory: 2000Mi
-              cpu: 500m
-          spin-igor:
-            replica: 1
-            requests:
-              memory: 1000Mi
-              cpu: 500m
-          spin-orca:
-            requests:
-              memory: 4000Mi
-              cpu: 2000m
-          spin-orca-bootstrap:
-            requests:
-              memory: 2000Mi
-              cpu: 1000m
-          spin-redis:
-            requests:
-              memory: 1000Mi
-              cpu: 1000m
+        customSizing: {}
         type: Distributed
         accountName: SPINNAKER_ACCOUNT
         updateVersions: true
