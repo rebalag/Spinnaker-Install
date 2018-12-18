@@ -155,7 +155,7 @@ data:
     enabled: false
     skipLifeCycleManagement: true
   deck.yml: |
-    artifactId: docker.io/opsmx11/deck:2.6.0-20181213100452
+    artifactId: docker.io/opsmx11/deck:v1
   igor-local.yml: |
     spinnaker:
       pollingSafeguard:
