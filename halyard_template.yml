@@ -56,6 +56,15 @@ spec:
         - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/profiles/front50-local.yml
           subPath: front50-local.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/front50.yml
+          subPath: front50.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/deck.yml
+          subPath: deck.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/fiat.yml
+          subPath: fiat.yml
       volumes:
       - name: halconfig
         configMap:
@@ -114,4 +123,10 @@ data:
     artifactId: opsmx11/redis:v3
   front50-local.yml: |
     spinnaker.s3.versioning: false
+  front50.yml: |
+    artifactId: docker.io/opsmx11/front50:0.14.0-20181207134351
+  deck.yml: |
+    artifactId: docker.io/opsmx11/deck:2.6.0-20181213100452
+  fiat.yml: |
+    artifactId: docker.io/opsmx11/fiat:1.3.0-20181207134351
 
