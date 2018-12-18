@@ -75,7 +75,7 @@ data:
         type: Distributed
         accountName: SPINNAKER_ACCOUNT
         updateVersions: true
-        location: spinnaker 
+        location: SPINNAKER_NAMESPACE 
         consul:
           enabled: false
         vault:
