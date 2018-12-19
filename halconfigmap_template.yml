@@ -92,7 +92,7 @@ data:
           bucket: test
           rootFolder: front50
           region: us-west-2
-          endpoint: http://minio-service.spinnaker.svc:39000
+          endpoint: http://minio-service:9000
           accessKeyId: opsmx123456
           secretAccessKey: opsmx_123456
         oraclebmcs: {}
@@ -154,7 +154,7 @@ data:
               roleProviderType: GITHUB
             file:
               roleProviderType: FILE
-          enabled: true
+          enabled: false
       artifacts:
         gcs:
           enabled: false
