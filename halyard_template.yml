@@ -132,7 +132,7 @@ data:
   echo.yml: |
     artifactId: docker.io/opsmx11/echo:2.2.0-20181207134351
   front50.yml: |
-    artifactId: docker.io/opsmx11/front50:0.14.0-20181207134351
+    artifactId: docker.io/opsmx11/front50:os3
   orca-bootstrap.yml: |
     artifactId: docker.io/opsmx11/orca:2.0.0-20181212160734
   orca.yml: |
