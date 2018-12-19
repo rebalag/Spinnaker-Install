@@ -39,8 +39,8 @@ spec:
         # Pulls the default Minio image from Docker Hub
         image: minio:minio
         args: 
-        - /storage
         - server
+        - /storage
         env:
         # Minio access key and secret key
         - name: MINIO_ACCESS_KEY
