@@ -37,7 +37,7 @@ spec:
       containers:
       - name: minio
         # Pulls the default Minio image from Docker Hub
-        image: docker.io/opsmx11/minio:wb1.0
+        image: minio:minio
         args: 
         - /storage
         - server
