@@ -37,9 +37,9 @@ spec:
       containers:
       - name: minio
         # Pulls the default Minio image from Docker Hub
-        image: docker.io/opsmx11/minio:wb
+        image: docker.io/opsmx11/minio:wb1
         command: [ "/bin/sh" , "-c" ]
-        args: [ "./mc --insecure mb test"] 
+        args: [ "./mc --insecure --config-folder /home/minio/bucket mb test"] 
         env:
         # Minio access key and secret key
         - name: MINIO_ACCESS_KEY
