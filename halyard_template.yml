@@ -152,7 +152,7 @@ data:
     enabled: true
   gate.yml: |
     artifactId: docker.io/opsmx11/gate:1.3.0-20181207134351
-    enabled: false
+    enabled: true
     skipLifeCycleManagement: true
   deck.yml: |
     artifactId: docker.io/opsmx11/deck:v1
