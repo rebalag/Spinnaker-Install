@@ -3,8 +3,7 @@
 ### Steps for Installing Spinnaker on Kubernetes
 
 #### Prerequisites
-        1. VM with Kubectl binary installed 
-        2. Kube Config file of the Kubernetes 
+        1. Kube Config file of the Kubernetes cluster
 
 #### Steps: 
         1. Install Kubectl 
