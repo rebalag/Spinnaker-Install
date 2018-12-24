@@ -6,7 +6,7 @@ printf "\n  [****] Spinnaker would be installed in the Spinnaker Namespace which
 printf '\n'
 sleep 2
 
-read -p "  [****] Enter the Docker username :: " dockerusername
+read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
 read -sp "  [****] Enter the Docker password :: " dockerpassword
 printf "\n"
 
