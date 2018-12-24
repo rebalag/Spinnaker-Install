@@ -52,9 +52,8 @@ def execute(cmd, verbose=False):
         return 1
     else:
         return ''.join(out).strip()
+    
 def pullPush(userName):
-
-
     for name, version in artifacts_version.items():
         dest_repo = "{}/{}:{}".format(userName, name, version)
         image_name = OPSMX_REPO.format(name, version)
