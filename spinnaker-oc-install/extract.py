@@ -11,6 +11,7 @@ __version__ = "2.0"
 __maintainer__ = "OpsMx"
 
 import sys
+import subprocess
 
 
 DOCKER_PULL = "docker pull {}"
