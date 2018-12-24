@@ -49,13 +49,11 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n'
 
 # pulling and pushing images
-#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
 printf '\n'
-
 
 python extract.py $dockerusername
 sed -i "s#example#$dockerusername#g" halyard_template.yml
-
 
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
