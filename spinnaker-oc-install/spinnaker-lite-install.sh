@@ -5,6 +5,19 @@ printf '\n'
 printf "\n  [****] Spinnaker would be installed in the Spinnaker Namespace which it would create by default [****] "
 printf '\n'
 sleep 2
+
+read -p "  [****] Enter the Docker username :: " dockerusername
+read -sp "  [****] Enter the Docker password :: " dockerpassword
+printf "\n"
+
+sudo docker login -U dockerusername -p dockerpassword
+
+if [echo $? == 0]
+	printf "sucessfully able to login in docker"
+else 
+	printf "check ypu user name and password"
+	exit(1)
+
 kubectl create namespace spinnaker
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
@@ -32,6 +45,13 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n' 
 curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/halyard_template.yml -o halyard_template.yml
 printf '\n'
+
+# pulling and pushing images
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
+printf '\n'
+
+python extrac.py $dockerusername
+
 
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
