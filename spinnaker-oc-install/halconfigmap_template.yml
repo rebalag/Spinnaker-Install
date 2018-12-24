@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: halconfig
-  namespace: namespace
+  namespace: spinnaker
 data:
   config: |
     currentDeployment: default
@@ -75,7 +75,7 @@ data:
         type: Distributed
         accountName: SPINNAKER_ACCOUNT
         updateVersions: true
-        location: namespace 
+        location: spinnaker 
         consul:
           enabled: false
         vault:
