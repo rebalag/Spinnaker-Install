@@ -90,7 +90,7 @@ kubectl apply -f halyard_template.yml -n spinnaker
 
 printf "\n  [****]  Configuration is complete, please wait till for a few minutes before accessing the pod [****] "
 printf '\n'
-rm -rf halyard_template.yml halconfigmap_template.yml minio-secret.yml minio.yml
+#rm -rf halyard_template.yml halconfigmap_template.yml minio-secret.yml minio.yml
 printf "\n  [****]  Please use wait a minute and then execute the  command to check the Deployed 'spin-halyard' Pod 'kubectl get pods -n spinnaker' [*****]"
 printf '\n'
 printf "\n  [****]  Please do a 'hal deploy apply' from the pod that has been deployed [****] "
