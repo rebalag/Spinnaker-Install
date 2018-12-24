@@ -18,7 +18,7 @@ DOCKER_TAG = "docker tag {} {}"
 DOCKER_PUSH = "docker push {}"  
 
 OPSMX_REPO = "docker.io/opsmx11/{}:{}"
-dest_repo = "{}/{}:{}".format(USERNAME, name, version)
+dest_repo = "{}/{}:{}"
 
 
 artifacts_version = {
