@@ -126,19 +126,19 @@ metadata:
   name: artifactsconfig
 data:
   clouddriver-bootstrap.yml: |
-    artifactId: docker.io/opsmx11/clouddriver:4.1.0-20181211134536
+    artifactId: docker.io/opsmx11/clouddriver:4.2.0-20181220153244
   clouddriver.yml: |
-    artifactId: docker.io/opsmx11/clouddriver:4.1.0-20181211134536
+    artifactId: docker.io/opsmx11/clouddriver:4.2.0-20181220153244
   echo.yml: |
-    artifactId: docker.io/opsmx11/echo:2.2.0-20181207134351
+    artifactId: docker.io/opsmx11/echo:2.2.2-20181219133919
   front50.yml: |
-    artifactId: docker.io/opsmx11/front50:os3.1
+    artifactId: docker.io/opsmx11/front50:0.14.0-20181207134351
   orca-bootstrap.yml: |
-    artifactId: docker.io/opsmx11/orca:2.0.0-20181212160734
+    artifactId: docker.io/opsmx11/orca:2.0.1-20181220142907
   orca.yml: |
-    artifactId: docker.io/opsmx11/orca:2.0.0-20181212160734
+    artifactId: docker.io/opsmx11/orca:2.0.1-20181220142907
   rosco.yml: |
-    artifactId: docker.io/opsmx11/rosco:0.8.1-20181207134351
+    artifactId: docker.io/opsmx11/rosco:0.8.2-20181221095200
   igor.yml: |
     artifactId: docker.io/opsmx11/igor:1.0.0-20181207134351
   fiat.yml: |
@@ -151,11 +151,11 @@ data:
     artifactId: docker.io/opsmx11/redis:v3
     enabled: true
   gate.yml: |
-    artifactId: docker.io/opsmx11/gate:1.3.0-20181207134351
+    artifactId: docker.io/opsmx11/gate:1.4.0-20181217192627
     enabled: true
     skipLifeCycleManagement: false
   deck.yml: |
-    artifactId: docker.io/opsmx11/deck:v1
+    artifactId: docker.io/opsmx11/deck:2.6.1-20181220153244
   igor-local.yml: |
     spinnaker:
       pollingSafeguard:
