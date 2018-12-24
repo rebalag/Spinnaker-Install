@@ -50,7 +50,9 @@ printf '\n'
 curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
 printf '\n'
 
+
 python extrac.py $dockerusername
+sed -i "s#example#$dockerusername#g" halconfigmap_template.yml
 
 
 #Applying the Halyard Pod

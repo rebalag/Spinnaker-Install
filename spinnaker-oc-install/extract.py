@@ -32,6 +32,7 @@ artifacts_version = {
     "orca": "2.0.1-20181220142907",
     "clouddriver": "4.2.0-20181220153244",
     "kayenta": "0.5.0-20181207134351",
+    "redis": "v3",
     "halyard":"stable"
 }
 

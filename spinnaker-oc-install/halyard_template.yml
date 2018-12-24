@@ -148,10 +148,10 @@ data:
   front50-local.yml: |
     spinnaker.s3.versioning: false
   redis.yml: |
-    artifactId: example/redis:v1
+    artifactId: example/redis:v3
     enabled: false
   redis-bootstrap.yml: |
-    artifactId: example/redis:v1
+    artifactId: example/redis:v3
     enabled: true
     skipLifeCycleManagement: false
   gate.yml: |
