@@ -37,7 +37,21 @@ artifacts_version = {
     "halyard":"stable"
 }
 
-
+def execute(cmd, verbose=False):
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = []
+    while True:
+        line = p.stdout.readline()
+        out.append(line)
+        if verbose:
+            print line,
+        if not line and p.poll() is not None:
+            break
+    if p.returncode != 0:
+        print p.stderr.read().strip()
+        return 1
+    else:
+        return ''.join(out).strip()
 def pullPush(userName):
 
 
