@@ -14,7 +14,7 @@ spec:
       containers:
       - name: minio
         # Pulls the default Minio image from Docker Hub
-        image: minio/minio
+        image: docker.io/minio/minio:latest
         args: 
         - server
         - /storage
