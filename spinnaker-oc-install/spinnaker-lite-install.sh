@@ -4,20 +4,22 @@ printf "\n  [****] Starting the Distributed Spinnaker Lite Version Installation 
 printf '\n'
 printf "\n  [****] Spinnaker would be installed in the Spinnaker Namespace which it would create by default [****] "
 printf '\n'
-sleep 2
+#sleep 2
 
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
-read -sp "  [****] Enter the Docker password :: " dockerpassword
+#read -sp "  [****] Enter the Docker password :: " dockerpassword
 printf "\n"
 
-sudo docker login -U dockerusername -p dockerpassword
+#sudo docker login -u dockerusername -p dockerpassword
 
-if [echo $? == 0]
-	printf "sucessfully able to login in docker"
-else 
-	printf "check ypu user name and password"
-	exit(1)
-
+#if [ $? -eq 0 ]
+#then
+#   printf "Successfully Logged into Docker"
+#else 
+#   printf " Check  your username and password and re-deploy the script"
+#   exit 1
+#fi
+printf '\n'
 kubectl create namespace spinnaker
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
@@ -47,12 +49,12 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n'
 
 # pulling and pushing images
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
 printf '\n'
 
 
-python extrac.py $dockerusername
-sed -i "s#example#$dockerusername#g" halconfigmap_template.yml
+python extract.py $dockerusername
+sed -i "s#example#$dockerusername#g" halyard_template.yml
 
 
 #Applying the Halyard Pod
