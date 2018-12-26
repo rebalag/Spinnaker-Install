@@ -22,7 +22,7 @@ spec:
       - name: halyard-daemon
         # todo - make :stable or digest of :stable
         image: docker.io/opsmx11/halyard:stable
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
         - /bin/sh
         args:
