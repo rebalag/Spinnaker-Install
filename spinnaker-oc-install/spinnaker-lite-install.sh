@@ -81,6 +81,8 @@ sed -i "s/opsmx_123456/$secret_access_key/" halconfigmap_template.yml
 #sed -i "s/spin-gate.abc.com/$gateurl/" halconfigmap_template.yml
 #sed -i "s/spin-deck.abc.com/$deckurl/" halconfigmap_template.yml
 #Applying Halconfig template and Halyard Deployment Pod 
+printf "\n  [****] Applying The Halyard local BOM [****] "
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
 printf '\n'
