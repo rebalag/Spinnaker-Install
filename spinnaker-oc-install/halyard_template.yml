@@ -21,7 +21,7 @@ spec:
       containers:
       - name: halyard-daemon
         # todo - make :stable or digest of :stable
-        image: opsmx11/halyard:stable
+        image: localhost:5000/opsmx11/halyard:stable
         imagePullPolicy: Always
         command:
         - /bin/sh
