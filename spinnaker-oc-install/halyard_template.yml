@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /home/builder/.hal;sh /opt/run_halyard.sh"
+        - "cp -R /home/builder/staging/.hal /home/builder/.hal;sh /opt/run_halyard.sh; /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config/ "
         readinessProbe:
           exec:
             command:
@@ -89,6 +89,36 @@ spec:
         - name: bomconfig
           mountPath: /home/builder/staging/.hal/.boms/bom/1.11.2.yml
           subPath: 1.11.2.yml 
+        - name: clouddriverbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/clouddriver/clouddriver.yml
+          subPath: clouddriver.yml
+        - name: deckbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/deck/settings.js
+          subPath: settings.js
+        - name: echobomconfig
+          mountPath: /home/builder/staging/.hal/.boms/echo/echo.yml
+          subPath: echo.yml
+        - name: fiatbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/fiat/fiat.yml
+          subPath: fiat.yml
+        - name: front50bomconfig
+          mountPath: /home/builder/staging/.hal/.boms/front50/front50.yml
+          subPath: front50.yml
+        - name: gatebomconfig
+          mountPath: /home/builder/staging/.hal/.boms/gate/gate.yml
+          subPath: gate.yml
+        - name: igorbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/igor/igor.yml
+          subPath: igor.yml
+        - name: orcabomconfig
+          mountPath: /home/builder/staging/.hal/.boms/orca/orca.yml
+          subPath: orca.yml
+        - name: roscobomconfig
+          mountPath: /home/builder/staging/.hal/.boms/rosco/rosco.yml
+          subPath: rosco.yml
+        - name: halyardlocalconfig
+          mountPath: /home/builder/staging/.hal/halyard-local.yml
+          subPath: halyard-local.yml
       volumes:
       - name: halconfig
         configMap:
@@ -106,6 +136,46 @@ spec:
         configMap: 
           defaultMode: 420
           name: bomconfig
+      - name: clouddriverbomconfig
+        configMap: 
+          defaultMode: 420
+          name: clouddriverbomconfig
+      - name: deckbomconfig
+        configMap: 
+          defaultMode: 420
+          name: deckbomconfig
+      - name: echobomconfig
+        configMap: 
+          defaultMode: 420
+          name: echobomconfig
+      - name: fiatbomconfig
+        configMap: 
+          defaultMode: 420
+          name: fiatbomconfig
+      - name: front50bomconfig
+        configMap: 
+          defaultMode: 420
+          name: front50bomconfig
+      - name: gatebomconfig
+        configMap: 
+          defaultMode: 420
+          name: gatebomconfig
+      - name: igorbomconfig
+        configMap: 
+          defaultMode: 420
+          name: igorbomconfig
+      - name: orcabomconfig
+        configMap: 
+          defaultMode: 420
+          name: orcabomconfig
+      - name: roscobomconfig
+        configMap: 
+          defaultMode: 420
+          name: roscobomconfig
+      - name: halyardlocalconfig
+        configMap: 
+          defaultMode: 420
+          name: halyardlocalconfig
 
 ---
 
@@ -165,4 +235,14 @@ data:
   deck.yml: |
     artifactId: example/deck:2.6.1-20181220153244 
     host: 0.0.0.0
+---
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: spinnaker
+  name: halyardlocalconfig
+data:
+  halyard-local.yml: |
+    spinnaker.config.input.gcs.enabled: false
+  
