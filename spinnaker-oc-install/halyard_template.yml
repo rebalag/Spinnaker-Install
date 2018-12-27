@@ -90,28 +90,28 @@ spec:
           mountPath: /home/builder/staging/.hal/.boms/bom/1.11.2.yml
           subPath: 1.11.2.yml 
         - name: clouddriverbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/clouddriver/clouddriver.yml
+          mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml
           subPath: clouddriver.yml
         - name: deckbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/deck/settings.js
+          mountPath: /home/builder/staging/.hal/.boms/deck/2.6.1-20181220153244/settings.js
           subPath: settings.js
         - name: echobomconfig
-          mountPath: /home/builder/staging/.hal/.boms/echo/echo.yml
+          mountPath: /home/builder/staging/.hal/.boms/echo/2.2.2-20181219133919/echo.yml
           subPath: echo.yml
         - name: fiatbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/fiat/fiat.yml
+          mountPath: /home/builder/staging/.hal/.boms/fiat/1.3.0-20181207134351/fiat.yml
           subPath: fiat.yml
         - name: front50bomconfig
-          mountPath: /home/builder/staging/.hal/.boms/front50/front50.yml
+          mountPath: /home/builder/staging/.hal/.boms/front50/0.14.0-20181207134351/front50.yml
           subPath: front50.yml
         - name: gatebomconfig
-          mountPath: /home/builder/staging/.hal/.boms/gate/gate.yml
+          mountPath: /home/builder/staging/.hal/.boms/gate/1.4.0-20181217192627/gate.yml
           subPath: gate.yml
         - name: orcabomconfig
-          mountPath: /home/builder/staging/.hal/.boms/orca/orca.yml
+          mountPath: /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml
           subPath: orca.yml
         - name: roscobomconfig
-          mountPath: /home/builder/staging/.hal/.boms/rosco/rosco.yml
+          mountPath: /home/builder/staging/.hal/.boms/rosco/0.8.2-20181221095200/rosco.yml
           subPath: rosco.yml
         - name: halyardlocalconfig
           mountPath: /home/builder/staging/.hal/halyard-local.yml
