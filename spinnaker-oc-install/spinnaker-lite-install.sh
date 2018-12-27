@@ -31,9 +31,9 @@ base1=$(echo -ne "$access_key" |base64)
 base2=$(echo -ne "$secret_access_key" |base64)
 printf "\n   [****]  Fetching and Updating the Minio Secret [****] "
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio-secret.yml -o minio-secret.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio-secret.yml -o minio-secret.yml
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio.yml -o minio.yml
 printf '\n'
 sed -i "s/base64convertedaccesskey/$base1/" minio-secret.yml
 sed -i "s/base64convertedSecretAccesskey/$base2/" minio-secret.yml
@@ -43,13 +43,15 @@ kubectl create -n spinnaker -f minio.yml
 #Fork the files from Github
 printf "\n  [****] Fetching the files for the Halyard Template and the ConfigMap for the deployment  [****]" 
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/halconfigmap_template.yml -o halconfigmap_template.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halconfigmap_template.yml -o halconfigmap_template.yml
 printf '\n' 
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/halyard_template.yml -o halyard_template.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halyard_template.yml -o halyard_template.yml
 printf '\n'
 
 # pulling and pushing images
-#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi
+
+/spinnaker-oc-install/extract.py -o extract.py
 printf '\n'
 printf " UserName : $dockerusername"
 #python extract.py $dockerusername
@@ -62,27 +64,58 @@ read -p "  [****] Enter the Spinnaker V2 Account Name to be configured :: " conf
 #read -p "  [****] Enter the Docker username :: " dockerusername
 #read -sp "  [****] Enter the Docker password :: " dockerpassword
 #printf "\n"
-#read -p "  [****] Enter the Docker repository :: " dockerrepo
-#read -p "  [****] Enter the Minio Endpoint :: " minioEndpoint
+
 read -p "  [****] Enter the path of the Kube Config File :: " kube_path
 #read -p "  [****] Enter the url for exposing the Gate [Ex: spin-gate.opsmx.com or ExternalIP:8084] :: " gateurl
 #read -p "  [****] Enter the url for exposing the Deck [Ex: spin-deck.opsmx.com or ExternalIP:9000] :: " deckurl
 #Updating the configs in the  Environment 
 
+#Updating HalyarBomConfig
+
+#cloudriver 
+curl  https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/clouddriver.yml -o clouddriver.yml
+kubectl create  configmap clouddriverbomconfig -n spinnaker --from-file=clouddriver.yml 
+
+#deck
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/settings.js -o deck.yml
+kubectl create configmap deckbomconfig -n spinnaker --from-file=deck.yml
+
+#echo
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/echo.yml -o echo.yml
+kubectl create configmap echobomconfig -n spinnaker --from-file=echo.yml 
+
+#fiat
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/fiat.yml -o fiat.yml
+kubectl create configmap fiatbomconfig -n spinnaker --from-file=fiat.yml
+
+#front50
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/front50.yml -o front50.yml
+kubectl create configmap front50bomconfig -n spinnaker --from-file=front50.yml
+
+#gate
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/gate.yml -o gate.yml
+kubectl create configmap gatebomconfig -n spinnaker --from-file=gate.yml
+
+#orca
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/orca.yml -o orca.yml
+kubectl create configmap orcabomconfig -n spinnaker --from-file=orca.yml
+
+#rosco
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/rosco.yml -o rosco.yml
+kubectl create configmap roscobomconfig -n spinnaker --from-file=rosco.yml
+
+
 printf " \n  [****] Updating configmap [****]" 
 sed -i "s/SPINNAKER_ACCOUNT/$configmap_account/g" halconfigmap_template.yml
-#sed -i "s/docker_repo_username/$dockerusername/" halconfigmap_template.yml
-#sed -i "s/docker_repo_password/$dockerpassword/" halconfigmap_template.yml
-#sed -i "s/docker_repo/$dockerrepo/" halconfigmap_template.yml#
-#sed -i "s/minio_endpoint/minioEndpoint/" halconfigmap_template.yml
-#sed -i "s/us-west-2/$region/" halconfigmap_template.yml
+
 sed -i "s/opsmx123456/$access_key/" halconfigmap_template.yml
 sed -i "s/opsmx_123456/$secret_access_key/" halconfigmap_template.yml
 #sed -i "s/spin-gate.abc.com/$gateurl/" halconfigmap_template.yml
 #sed -i "s/spin-deck.abc.com/$deckurl/" halconfigmap_template.yml
+
 #Applying Halconfig template and Halyard Deployment Pod 
 printf "\n  [****] Applying The Halyard local BOM [****] "
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom -o 1.11.2.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/blob/citi/spinnaker-oc-install/bom/1.11.2/bom.yml -o 1.11.2.yml
 kubectl create configmap bomconfig --from-file=1.11.2.yml -n spinnaker
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
