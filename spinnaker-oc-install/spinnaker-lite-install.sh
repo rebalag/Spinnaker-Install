@@ -96,6 +96,10 @@ kubectl create configmap front50bomconfig -n spinnaker --from-file=front50.yml
 curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/gate.yml -o gate.yml
 kubectl create configmap gatebomconfig -n spinnaker --from-file=gate.yml
 
+#igor
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/igor.yml -o igor.ym
+kubectl create configmap igorbomconfig -n spinnaker --from-file=igor.yml
+
 #orca
 curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/orca.yml -o orca.yml
 kubectl create configmap orcabomconfig -n spinnaker --from-file=orca.yml
