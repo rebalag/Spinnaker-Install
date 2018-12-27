@@ -107,9 +107,6 @@ spec:
         - name: gatebomconfig
           mountPath: /home/builder/staging/.hal/.boms/gate/gate.yml
           subPath: gate.yml
-        - name: igorbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/igor/igor.yml
-          subPath: igor.yml
         - name: orcabomconfig
           mountPath: /home/builder/staging/.hal/.boms/orca/orca.yml
           subPath: orca.yml
@@ -160,10 +157,6 @@ spec:
         configMap: 
           defaultMode: 420
           name: gatebomconfig
-      - name: igorbomconfig
-        configMap: 
-          defaultMode: 420
-          name: igorbomconfig
       - name: orcabomconfig
         configMap: 
           defaultMode: 420
