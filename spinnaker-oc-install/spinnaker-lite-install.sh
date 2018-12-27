@@ -119,7 +119,7 @@ sed -i "s/opsmx_123456/$secret_access_key/" halconfigmap_template.yml
 
 #Applying Halconfig template and Halyard Deployment Pod 
 printf "\n  [****] Applying The Halyard local BOM [****] "
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/blob/citi/spinnaker-oc-install/bom/1.11.2/bom.yml -o 1.11.2.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/bom.yml -o 1.11.2.yml
 kubectl create configmap bomconfig --from-file=1.11.2.yml -n spinnaker
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
