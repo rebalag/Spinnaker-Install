@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /home/builder/.hal; /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config; sh /opt/run_halyard.sh "
+        - "cp -R /home/builder/staging/.hal /home/builder/.hal && /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config; sh /opt/run_halyard.sh "
         readinessProbe:
           exec:
             command:
