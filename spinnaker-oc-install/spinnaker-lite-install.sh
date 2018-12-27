@@ -97,7 +97,7 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc
 kubectl create configmap gatebomconfig -n spinnaker --from-file=gate.yml
 
 #igor
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/igor.yml -o igor.ym
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/bom/1.11.2/igor.yml -o igor.yml
 kubectl create configmap igorbomconfig -n spinnaker --from-file=igor.yml
 
 #orca
