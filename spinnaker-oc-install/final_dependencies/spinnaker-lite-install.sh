@@ -14,6 +14,7 @@ printf '\n'
 read -p "  [****] Enter the namespace where you want to deploy Spinnaker and Minio: " spinnaker_namespace
 
 kubectl create namespace $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
 
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
