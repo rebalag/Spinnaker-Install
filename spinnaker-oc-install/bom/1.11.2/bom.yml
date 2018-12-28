@@ -41,7 +41,7 @@ services:
     version: local:0.10.0-20181207032510
   monitoring-third-party:
     commit: 83d4ac45f18a3268e18e8390e07f8a94ffca4e24
-    version: 0.10.0-20181207032510
+    version: local:0.10.0-20181207032510
   orca:
     commit: b3f3429f83a609ab48718360920a5a08168bd3f9
     version: local:2.0.1-20181220142907
