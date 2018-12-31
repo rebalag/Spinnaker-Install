@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config; sh /opt/run_halyard.sh "
+        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /root/.hal/.boms/bom/bom.yml /root/.hal/.boms/bom/1.11.2.yml; sh /opt/run_halyard.sh "
         readinessProbe:
           exec:
             command:
@@ -87,8 +87,8 @@ spec:
           mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
           subPath: orca-bootstrap.yml
         - name: bomconfig
-          mountPath: /home/builder/staging/.hal/.boms/bom/1.11.2.yml
-          subPath: 1.11.2.yml 
+          mountPath: /home/builder/staging/.hal/.boms/bom/bom.yml
+          subPath: bom.yml 
         - name: clouddriverbomconfig
           mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml
           subPath: clouddriver.yml
