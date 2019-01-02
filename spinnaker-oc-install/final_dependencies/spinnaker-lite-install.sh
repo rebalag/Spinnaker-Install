@@ -54,7 +54,7 @@ oc create configmap bomconfig --from-file=1.11.2/bom.yml -n $spinnaker_namespace
 
 #cloudriver 
 oc create  configmap clouddriverbomconfig -n $spinnaker_namespace --from-file=1.11.2/clouddriver.yml 
-
+oc create  configmap clouddriverbootstrapbomconfig -n $spinnaker_namespace --from-file=1.11.2/clouddriver.yml 
 #deck
 oc create configmap deckbomconfig -n $spinnaker_namespace --from-file=1.11.2/settings.js
 
@@ -75,6 +75,7 @@ oc create configmap igorbomconfig -n $spinnaker_namespace --from-file=1.11.2/igo
 
 #orca
 oc create configmap orcabomconfig -n $spinnaker_namespace --from-file=1.11.2/orca.yml
+oc create configmap orcabootstrapbomconfig -n $spinnaker_namespace --from-file=1.11.2/orca.yml
 
 #rosco
 oc create configmap roscobomconfig -n $spinnaker_namespace --from-file=1.11.2/rosco.yml
