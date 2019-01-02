@@ -148,7 +148,7 @@ spec:
           subPath: orca-local.yml   
         - name: profilesconfig
           mountPath: /home/builder/staging/.hal/default/profiles/gate-local.yml
-          subPath: gate-local.yml  \
+          subPath: gate-local.yml  
         - name: profilesconfig
           mountPath: /home/builder/staging/.hal/default/profiles/fiat-local.yml
           subPath: fiat-local.yml       
