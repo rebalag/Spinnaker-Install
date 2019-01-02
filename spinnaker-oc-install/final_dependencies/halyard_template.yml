@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - ""cp -R /home/builder/staging/.hal /home/builder/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/builder/.hal/.boms/bom/1.11.2.yml && cp /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver-bootstrap.yml && cp /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca-bootstrap.yml; sh /opt/run_halyard.sh"
+        - "cp -R /home/builder/staging/.hal /home/builder/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/builder/.hal/.boms/bom/1.11.2.yml && cp /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver-bootstrap.yml && cp /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca-bootstrap.yml; sh /opt/run_halyard.sh"
         readinessProbe:
           exec:
             command:
