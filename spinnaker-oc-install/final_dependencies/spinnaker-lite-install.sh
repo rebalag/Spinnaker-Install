@@ -27,6 +27,7 @@ printf '\n'
 sed -i "s/MINIO_USER/$access_key/" minio_template.yml
 sed -i "s/MINIO_PASSWORD/$secret_access_key/" minio_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" minio_template.yml
+sed -i "s#example#$dockerrepoName#g" minio_template.yml
 printf '\n'
 oc create  -f minio_template.yml
 
