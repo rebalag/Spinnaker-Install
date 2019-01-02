@@ -72,6 +72,9 @@ spec:
           mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
           subPath: redis.yml
         - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/redis-bootstrap.yml
+          subPath: redis-bootstrap.yml
+        - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver-bootstrap.yml
           subPath: clouddriver-bootstrap.yml
         - name: artifactsconfig
@@ -92,6 +95,9 @@ spec:
         - name: clouddriverbomconfig
           mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml
           subPath: clouddriver.yml
+        - name: clouddriverbootstrapbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver-bootstrap.yml
+          subPath: clouddriver-bootstrap.yml
         - name: deckbomconfig
           mountPath: /home/builder/staging/.hal/.boms/deck/2.6.1-20181220153244/settings.js
           subPath: settings.js
@@ -113,6 +119,9 @@ spec:
         - name: orcabomconfig
           mountPath: /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml
           subPath: orca.yml
+        - name: orcabootstrapbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca-bootstrap.yml
+          subPath: orca-bootstrap.yml
         - name: roscobomconfig
           mountPath: /home/builder/staging/.hal/.boms/rosco/0.8.2-20181221095200/rosco.yml
           subPath: rosco.yml
@@ -125,6 +134,24 @@ spec:
         - name: halyardlocalconfig
           mountPath: /home/builder/staging/.hal/halyard-local.yml
           subPath: halyard-local.yml
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/clouddriver-bootstrap-local.yml
+          subPath: clouddriver-bootstrap-local.yml
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/clouddriver-local.yml
+          subPath: clouddriver-local.yml
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/orca-bootstrap-local.yml
+          subPath: orca-bootstrap-local.yml
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/orca-local.yml
+          subPath: orca-local.yml   
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/gate-local.yml
+          subPath: gate-local.yml  \
+        - name: profilesconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/fiat-local.yml
+          subPath: fiat-local.yml       
       volumes:
       - name: halconfig
         configMap:
@@ -146,6 +173,10 @@ spec:
         configMap: 
           defaultMode: 420
           name: clouddriverbomconfig
+      - name: clouddriverbootstrapbomconfig
+        configMap: 
+          defaultMode: 420
+          name: clouddriverbootstrapbomconfig
       - name: deckbomconfig
         configMap: 
           defaultMode: 420
@@ -174,6 +205,10 @@ spec:
         configMap: 
           defaultMode: 420
           name: orcabomconfig
+      - name: orcabootstrapbomconfig
+        configMap: 
+          defaultMode: 420
+          name: orcabootstrapbomconfig
       - name: roscobomconfig
         configMap: 
           defaultMode: 420
@@ -190,6 +225,10 @@ spec:
         configMap: 
           defaultMode: 420
           name: halyardlocalconfig
+      - name: profilesconfig
+        configMap: 
+          defaultMode: 420
+          name: profilesconfig
 
 ---
 
@@ -241,14 +280,16 @@ data:
   redis.yml: |
     artifactId: example/redis:v3
     enabled: true
+  redis-bootstrap.yml: |
+    artifactId: example/redis:v3
+    enabled: true
   gate.yml: |
     artifactId: example/gate:1.4.0-20181217192627
-    enabled: false
-    skipLifeCycleManagement: true
-    overrideBaseUrl: redis://redis-master:6379
+    host: 0.0.0.0
   deck.yml: |
     artifactId: example/deck:2.6.1-20181220153244 
     host: 0.0.0.0
+
 ---
 
 apiVersion: v1
@@ -259,4 +300,25 @@ metadata:
 data:
   halyard-local.yml: |
     spinnaker.config.input.gcs.enabled: false
-  
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: SPINNAKER_NAMESPACE
+  name: profilesconfig
+data: 
+  clouddriver-bootstrap-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+  clouddriver-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+  orca-bootstrap-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+  orca-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+  gate-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+  fiat-local.yml: |
+    services.redis.baseUrl: redis://spin-redis-bootstrap:6379
+    
+
