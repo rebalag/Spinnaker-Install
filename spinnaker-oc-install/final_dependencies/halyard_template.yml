@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /home/builder/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/builder/.hal/.boms/bom/1.11.2.yml; sh /opt/run_halyard.sh "
+        - ""cp -R /home/builder/staging/.hal /home/builder/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/builder/.hal/.boms/bom/1.11.2.yml && cp /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml /home/builder/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver-bootstrap.yml && cp /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca-bootstrap.yml; sh /opt/run_halyard.sh"
         readinessProbe:
           exec:
             command:
@@ -95,9 +95,6 @@ spec:
         - name: clouddriverbomconfig
           mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver.yml
           subPath: clouddriver.yml
-        - name: clouddriverbootstrapbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/clouddriver/4.2.0-20181220153244/clouddriver-bootstrap.yml
-          subPath: clouddriver-bootstrap.yml
         - name: deckbomconfig
           mountPath: /home/builder/staging/.hal/.boms/deck/2.6.1-20181220153244/settings.js
           subPath: settings.js
@@ -119,9 +116,6 @@ spec:
         - name: orcabomconfig
           mountPath: /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca.yml
           subPath: orca.yml
-        - name: orcabootstrapbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/orca/2.0.1-20181220142907/orca-bootstrap.yml
-          subPath: orca-bootstrap.yml
         - name: roscobomconfig
           mountPath: /home/builder/staging/.hal/.boms/rosco/0.8.2-20181221095200/rosco.yml
           subPath: rosco.yml
@@ -148,7 +142,7 @@ spec:
           subPath: orca-local.yml   
         - name: profilesconfig
           mountPath: /home/builder/staging/.hal/default/profiles/gate-local.yml
-          subPath: gate-local.yml  
+          subPath: gate-local.yml  \
         - name: profilesconfig
           mountPath: /home/builder/staging/.hal/default/profiles/fiat-local.yml
           subPath: fiat-local.yml       
@@ -173,10 +167,6 @@ spec:
         configMap: 
           defaultMode: 420
           name: clouddriverbomconfig
-      - name: clouddriverbootstrapbomconfig
-        configMap: 
-          defaultMode: 420
-          name: clouddriverbootstrapbomconfig
       - name: deckbomconfig
         configMap: 
           defaultMode: 420
@@ -205,10 +195,6 @@ spec:
         configMap: 
           defaultMode: 420
           name: orcabomconfig
-      - name: orcabootstrapbomconfig
-        configMap: 
-          defaultMode: 420
-          name: orcabootstrapbomconfig
       - name: roscobomconfig
         configMap: 
           defaultMode: 420
