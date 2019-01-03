@@ -74,9 +74,9 @@ sed -i "s/MINIO_USER/$access_key/" halconfigmap_template.yml
 sed -i "s/MINIO_PASSWORD/$secret_access_key/" halconfigmap_template.yml
 
 #Applying Halconfig template and Halyard Deployment Pod 
-printf "\n  [****] Applying The Halyard local BOM [****] "
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom -o 1.11.2.yml
-kubectl create configmap bomconfig --from-file=1.11.2.yml -n $spinnaker_namespace
+#printf "\n  [****] Applying The Halyard local BOM [****] "
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom -o 1.11.2.yml
+#kubectl create configmap bomconfig --from-file=1.11.2.yml -n $spinnaker_namespace
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
 printf '\n'
