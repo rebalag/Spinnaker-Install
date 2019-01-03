@@ -6,6 +6,8 @@ printf "\n  [****] Spinnaker would be installed in the Spinnaker Namespace which
 printf '\n'
 #sleep 2
 
+
+#checking for Docker UserName and Password for pushing the Docker images using extract.py, if extract.py is not in use we don't require docker login
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
 #read -sp "  [****] Enter the Docker password :: " dockerpassword
 printf "\n"
@@ -20,7 +22,8 @@ printf "\n"
 #   exit 1
 #fi
 printf '\n'
-kubectl create namespace spinnaker
+read -p "  [****] Enter the Namespace where you want to Deploy Spinnaker and related services :" $spinnaker_namespace
+kubectl create namespace $spinnaker_namespace
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
 printf '\n'
@@ -31,14 +34,12 @@ base1=$(echo -ne "$access_key" |base64)
 base2=$(echo -ne "$secret_access_key" |base64)
 printf "\n   [****]  Fetching and Updating the Minio Secret [****] "
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio-secret.yml -o minio-secret.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio_template.yml -o minio_template.yml
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/minio.yml -o minio.yml
-printf '\n'
-sed -i "s/base64convertedaccesskey/$base1/" minio-secret.yml
-sed -i "s/base64convertedSecretAccesskey/$base2/" minio-secret.yml
-kubectl create -n spinnaker -f minio-secret.yml
-kubectl create -n spinnaker -f minio.yml
+sed -i "s/base64convertedaccesskey/$base1/" minio_template.yml
+sed -i "s/base64convertedSecretAccesskey/$base2/" minio_template.yml
+sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" minio_template.yml
+kubectl create -n $spinnaker_namespace -f minio_template.yml
 
 #Fork the files from Github
 printf "\n  [****] Fetching the files for the Halyard Template and the ConfigMap for the deployment  [****]" 
@@ -49,47 +50,39 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n'
 
 # pulling and pushing images
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
-printf '\n'
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
+#printf '\n'
 
-python extract.py $dockerusername
+#python extract.py $dockerusername
 sed -i "s#example#$dockerusername#g" halyard_template.yml
+sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
+sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
 printf '\n'
 read -p "  [****] Enter the Spinnaker V2 Account Name to be configured :: " configmap_account
-#read -p "  [****] Enter the Docker username :: " dockerusername
-#read -sp "  [****] Enter the Docker password :: " dockerpassword
-#printf "\n"
-#read -p "  [****] Enter the Docker repository :: " dockerrepo
-#read -p "  [****] Enter the Minio Endpoint :: " minioEndpoint
 read -p "  [****] Enter the path of the Kube Config File :: " kube_path
-#read -p "  [****] Enter the url for exposing the Gate [Ex: spin-gate.opsmx.com or ExternalIP:8084] :: " gateurl
-#read -p "  [****] Enter the url for exposing the Deck [Ex: spin-deck.opsmx.com or ExternalIP:9000] :: " deckurl
+
 #Updating the configs in the  Environment 
 
 printf " \n  [****] Updating configmap [****]" 
 sed -i "s/SPINNAKER_ACCOUNT/$configmap_account/g" halconfigmap_template.yml
-#sed -i "s/docker_repo_username/$dockerusername/" halconfigmap_template.yml
-#sed -i "s/docker_repo_password/$dockerpassword/" halconfigmap_template.yml
-#sed -i "s/docker_repo/$dockerrepo/" halconfigmap_template.yml#
-#sed -i "s/minio_endpoint/minioEndpoint/" halconfigmap_template.yml
-#sed -i "s/us-west-2/$region/" halconfigmap_template.yml
-sed -i "s/opsmx123456/$access_key/" halconfigmap_template.yml
-sed -i "s/opsmx_123456/$secret_access_key/" halconfigmap_template.yml
-#sed -i "s/spin-gate.abc.com/$gateurl/" halconfigmap_template.yml
-#sed -i "s/spin-deck.abc.com/$deckurl/" halconfigmap_template.yml
+sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
+sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
+sed -i "s/MINIO_USER/$access_key/" halconfigmap_template.yml
+sed -i "s/MINIO_PASSWORD/$secret_access_key/" halconfigmap_template.yml
+
 #Applying Halconfig template and Halyard Deployment Pod 
 printf "\n  [****] Applying The Halyard local BOM [****] "
 curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom -o 1.11.2.yml
-kubectl create configmap bomconfig --from-file=1.11.2.yml -n spinnaker
+kubectl create configmap bomconfig --from-file=1.11.2.yml -n $spinnaker_namespace
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
 printf '\n'
-kubectl apply -f halconfigmap_template.yml -n spinnaker
-kubectl create secret generic kubeconfig --from-file=$kube_path -n spinnaker
-kubectl apply -f halyard_template.yml -n spinnaker
+kubectl apply -f halconfigmap_template.yml -n $spinnaker_namespace
+kubectl create secret generic kubeconfig --from-file=$kube_path -n $spinnaker_namespace
+kubectl apply -f halyard_template.yml -n $spinnaker_namespace
 
 printf "\n  [****]  Configuration is complete, please wait till for a few minutes before accessing the pod [****] "
 printf '\n'
