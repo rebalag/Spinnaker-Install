@@ -75,3 +75,16 @@ spec:
       protocol: TCP
   selector:
     app: minio
+    
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-secret
+  namespace: SPINNAKER_NAMESPACE
+type: Opaque
+data:
+  username: base64convertedaccesskey
+  password: base64convertedSecretAccesskey
+
