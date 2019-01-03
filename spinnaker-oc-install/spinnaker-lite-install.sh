@@ -22,7 +22,7 @@ printf "\n"
 #   exit 1
 #fi
 printf '\n'
-read -p "  [****] Enter the Namespace where you want to Deploy Spinnaker and related services :" $spinnaker_namespace
+read -p "  [****] Enter the Namespace where you want to Deploy Spinnaker and related services :" spinnaker_namespace
 kubectl create namespace $spinnaker_namespace
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
