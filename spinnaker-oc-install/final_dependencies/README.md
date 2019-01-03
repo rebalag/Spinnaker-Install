@@ -1,4 +1,4 @@
-# Spinnaker On Openshift Airgapped VM with Kubernetes V1 account
+# Spinnaker Installation On Openshift Airgapped VM with Kubernetes V1 account
 
 ### Steps for Installing Spinnaker on Openshift
 
