@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: spin-halyard
-  namespace: spinnaker 
+  namespace: SPINNAKER_NAMESPACE 
   labels:
     app: spin
     stack: halyard
@@ -21,7 +21,7 @@ spec:
       containers:
       - name: halyard-daemon
         # todo - make :stable or digest of :stable
-        image: docker.io/opsmx11/halyard:stable
+        image: example/halyard:stable
         imagePullPolicy: IfNotPresent
         command:
         - /bin/sh
@@ -113,7 +113,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spin-halyard
-  namespace: spinnaker 
+  namespace: SPINNAKER_NAMESPACE 
 spec:
   ports:
     - port: 8064
@@ -129,7 +129,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: spinnaker
+  namespace: SPINNAKER_NAMESPACE
   name: artifactsconfig
 data:
   clouddriver-bootstrap.yml: |
