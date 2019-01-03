@@ -55,8 +55,8 @@ printf '\n'
 
 #python extract.py $dockerusername
 sed -i "s#example#$dockerusername#g" halyard_template.yml
-sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
-sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
+sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
+sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
@@ -68,8 +68,8 @@ read -p "  [****] Enter the path of the Kube Config File :: " kube_path
 
 printf " \n  [****] Updating configmap [****]" 
 sed -i "s/SPINNAKER_ACCOUNT/$configmap_account/g" halconfigmap_template.yml
-sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
-sed -i "s#SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
+sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
+sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 sed -i "s/MINIO_USER/$access_key/" halconfigmap_template.yml
 sed -i "s/MINIO_PASSWORD/$secret_access_key/" halconfigmap_template.yml
 
