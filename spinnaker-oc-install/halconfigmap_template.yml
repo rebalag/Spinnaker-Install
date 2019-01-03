@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: halconfig
-  namespace: spinnaker
+  namespace: SPINNAKER_NAMESPACE
 data:
   config: |
     currentDeployment: default
@@ -75,7 +75,7 @@ data:
         type: Distributed
         accountName: SPINNAKER_ACCOUNT
         updateVersions: true
-        location: spinnaker 
+        location: SPINNAKER_NAMESPACE 
         consul:
           enabled: false
         vault:
@@ -93,8 +93,8 @@ data:
           rootFolder: front50
           region: us-west-2
           endpoint: http://minio-service:9000
-          accessKeyId: opsmx123456
-          secretAccessKey: opsmx_123456
+          accessKeyId: MINIO_USER
+          secretAccessKey: MINIO_PASSWORD
         oraclebmcs: {}
       features:
         auth: false
