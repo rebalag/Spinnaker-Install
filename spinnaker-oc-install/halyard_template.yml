@@ -159,9 +159,7 @@ data:
     enabled: true
   gate.yml: |
     artifactId: example/gate:1.4.0-20181217192627
-    enabled: false
-    skipLifeCycleManagement: true
-    overrideBaseUrl: redis://redis-master:6379
+    host: 0.0.0.0
   deck.yml: |
     artifactId: example/deck:2.6.1-20181220153244 
     host: 0.0.0.0
