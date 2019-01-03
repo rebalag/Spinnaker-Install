@@ -86,9 +86,6 @@ spec:
         - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
           subPath: orca-bootstrap.yml
-        - name: bomconfig
-          mountPath: /home/builder/staging/.hal/.boms/bom/1.11.2.yml
-          subPath: 1.11.2.yml 
       volumes:
       - name: halconfig
         configMap:
@@ -102,10 +99,6 @@ spec:
         configMap: 
           defaultMode: 420
           name: artifactsconfig
-      - name: bomconfig
-        configMap: 
-          defaultMode: 420
-          name: bomconfig
 
 ---
 
