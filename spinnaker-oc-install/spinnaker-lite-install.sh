@@ -50,10 +50,10 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n'
 
 # pulling and pushing images
-#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
-#printf '\n'
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
+printf '\n'
 
-#python extract.py $dockerusername
+python extract.py $dockerusername
 sed -i "s#example#$dockerusername#g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
