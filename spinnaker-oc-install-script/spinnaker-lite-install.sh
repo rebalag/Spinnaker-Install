@@ -4,8 +4,7 @@ printf "\n  [****] Starting the Distributed Spinnaker Lite Version Installation 
 printf '\n'
 printf "\n  [****] Spinnaker would be installed in the Spinnaker Namespace which it would create by default [****] "
 printf '\n'
-#sleep 2
-
+printf "\n  [****] Please ensure you have a docker login for pushing the script to customized repository [****] "
 
 #checking for Docker UserName and Password for pushing the Docker images using extract.py, if extract.py is not in use we don't require docker login
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
