@@ -235,7 +235,6 @@ data:
   fiat.yml: |
     artifactId: example/fiat:sc-test
     enabled: true
-    skipLifeCycleManagement: false
   front50-local.yml: |
     spinnaker.s3.versioning: false
   redis.yml: |
@@ -244,7 +243,6 @@ data:
   gate.yml: |
     artifactId: example/gate:sc-test
     enabled: true
-    skipLifeCycleManagement: false
     overrideBaseUrl: redis://redis-master:6379
   deck.yml: |
     artifactId: example/deck:sc-test
