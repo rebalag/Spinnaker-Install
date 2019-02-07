@@ -244,7 +244,7 @@ data:
   gate.yml: |
     artifactId: example/gate:sc-test
     enabled: true
-    skipLifeCycleManagement: true
+    skipLifeCycleManagement: false
     overrideBaseUrl: redis://redis-master:6379
   deck.yml: |
     artifactId: example/deck:sc-test
