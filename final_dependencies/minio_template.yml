@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  # This name uniquely identifies the PVC. Will be used in deployment below.
+  name: minio-pv-claim
+  namespace: SPINNAKER_NAMESPACE
+  labels:
+    app: minio-storage-claim
+spec:
+  # Read more about access modes here: https://kubernetes.io/docs/user-guide/persistent-volumes/#access-modes
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    # This is the request for storage. Should be available in the cluster.
+    requests:
+      storage: 10Gi
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -12,26 +28,39 @@ spec:
       labels:
         app: minio
     spec:
+      # Refer to the PVC created earlier
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          # Name of the PVC created earlier
+          claimName: minio-pv-claim
       containers:
       - name: minio
-        image: example/minio:latest
-        imagePullPolicy: IfNotPresent
-        args:
+        # Pulls the default Minio image from Docker Hub
+        image: docker.io/minio/minio:latest
+        args: 
         - server
         - /storage
         env:
+        # Minio access key and secret key
         - name: MINIO_ACCESS_KEY
           valueFrom:
-            configMapKeyRef:  
-              name: minio
+            secretKeyRef:
+              name: minio-secret
               key: username
         - name: MINIO_SECRET_KEY
           valueFrom:
-            configMapKeyRef:
-              name: minio
+            secretKeyRef:
+              name: minio-secret
               key: password
         ports:
         - containerPort: 9000
+        # Mount the volume into the pod
+        volumeMounts:
+        - name: storage # must match the volume name, above
+          mountPath: "/storage"
+
+
 ---
 apiVersion: v1
 kind: Service
@@ -39,21 +68,23 @@ metadata:
   name: minio-service
   namespace: SPINNAKER_NAMESPACE
 spec:
+  type: ClusterIP
   ports:
     - port: 9000
       targetPort: 9000
       protocol: TCP
   selector:
     app: minio
-
+    
 ---
 
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
-  name: minio
-  namespace: SPINNAKER_NAMESPACE 
+  name: minio-secret
+  namespace: SPINNAKER_NAMESPACE
+type: Opaque
 data:
-  username: MINIO_USER
-  password: MINIO_PASSWORD
+  username: base64convertedaccesskey
+  password: base64convertedSecretAccesskey
 
