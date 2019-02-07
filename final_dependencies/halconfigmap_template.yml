@@ -69,7 +69,7 @@ data:
           primaryAccount: SPINNAKER_ACCOUNT
         openstack:
           enabled: false
-          accounts: [] 	
+          accounts: []
           bakeryDefaults:
             baseImages: []
         oraclebmcs:
