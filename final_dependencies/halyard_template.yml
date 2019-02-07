@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.kube/config /root/.kube/config && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /hal/builder/.hal/.boms/bom/bom.yml /root/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
+        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.kube/config /root/.kube/config && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && cp -f /hal/builder/.hal/.boms/bom/bom.yml /root/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
         readinessProbe:
           exec:
             command:
@@ -90,34 +90,34 @@ spec:
           mountPath: /home/builder/staging/.hal/.boms/bom/bom.yml
           subPath: bom.yml 
         - name: clouddriverbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/clouddriver/sc-test/clouddriver.yml
+          mountPath: /home/builder/staging/.hal/.boms/clouddriver/clouddriver.yml
           subPath: clouddriver.yml
         - name: deckbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/deck/sc-test/settings.js
+          mountPath: /home/builder/staging/.hal/.boms/deck/settings.js
           subPath: settings.js
         - name: echobomconfig
-          mountPath: /home/builder/staging/.hal/.boms/echo/sc-test/echo.yml
+          mountPath: /home/builder/staging/.hal/.boms/echo/echo.yml
           subPath: echo.yml
         - name: fiatbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/fiat/sc-test/fiat.yml
+          mountPath: /home/builder/staging/.hal/.boms/fiat/fiat.yml
           subPath: fiat.yml
         - name: front50bomconfig
-          mountPath: /home/builder/staging/.hal/.boms/front50/sc-test/front50.yml
+          mountPath: /home/builder/staging/.hal/.boms/front50/front50.yml
           subPath: front50.yml
         - name: gatebomconfig
-          mountPath: /home/builder/staging/.hal/.boms/gate/sc-test/gate.yml
+          mountPath: /home/builder/staging/.hal/.boms/gate/gate.yml
           subPath: gate.yml
         - name: igorbomconfig
-          mountPath: /home/builder/staging/.hal/.boms/igor/sc-test/igor.yml
+          mountPath: /home/builder/staging/.hal/.boms/igor/igor.yml
           subPath: igor.yml
         - name: orcabomconfig
-          mountPath: /home/builder/staging/.hal/.boms/orca/sc-test/orca.yml
+          mountPath: /home/builder/staging/.hal/.boms/orca/orca.yml
           subPath: orca.yml
         - name: roscobomconfig
-          mountPath: /home/builder/staging/.hal/.boms/rosco/sc-test/rosco.yml
+          mountPath: /home/builder/staging/.hal/.boms/rosco/rosco.yml
           subPath: rosco.yml
         - name: roscoimagebomconfig
-          mountPath: /home/builder/staging/.hal/.boms/rosco/sc-test/images.yml
+          mountPath: /home/builder/staging/.hal/.boms/rosco/images.yml
           subPath: images.yml
         - name: roscobomconfig
           mountPath: /home/builder/staging/.hal/.boms/rosco/packer/packer.tar.gz
