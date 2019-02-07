@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /hal/builder/.hal/.boms/bom/bom.yml /root/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
+        - "cp -R /home/builder/staging/.hal /root/.hal && cp -R /home/builder/staging/.kube/config /root/.kube/config && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /hal/builder/.hal/.boms/bom/bom.yml /root/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
         readinessProbe:
           exec:
             command:
