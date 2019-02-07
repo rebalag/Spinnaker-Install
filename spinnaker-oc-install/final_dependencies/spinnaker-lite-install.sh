@@ -13,7 +13,13 @@ printf '\n'
 
 read -p "  [****] Enter the namespace where you want to deploy Spinnaker and Minio: " spinnaker_namespace
 
-kubectl create namespace $spinnaker_namespace
+oc create namespace $spinnaker_namespace
+
+#Adding root permissions to the service accounts
+oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z builder -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z deployer -n $spinnaker_namespace
+
 
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
@@ -23,8 +29,11 @@ read -p "  [****] Enter the Minio Secret Access Key [Secret key should be in bet
 printf '\n'
 printf "\n   [****]  Fetching and Updating the Minio Secret [****] "
 printf '\n'
-sed -i "s/MINIO_USER/$access_key/" minio_template.yml
-sed -i "s/MINIO_PASSWORD/$secret_access_key/" minio_template.yml
+printf '\n'
+base1=$(echo -ne "$access_key" |base64)
+base2=$(echo -ne "$secret_access_key" |base64)
+sed -i "s/base64convertedaccesskey/$base1/" minio_template.yml
+sed -i "s/base64convertedSecretAccesskey/$base2/" minio_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" minio_template.yml
 printf '\n'
 printf '\n'
@@ -47,36 +56,36 @@ read -p "  [****] Enter the path of the Kube Config File :: " kube_path
 #Updating HalyardBomConfig And other configs
 
 printf "\n  [****] Applying The Halyard local BOM [****] "
-kubectl create configmap bomconfig --from-file=1.11.2/bom.yml -n $spinnaker_namespace
+oc create configmap bomconfig --from-file=1.12.1/bom.yml -n $spinnaker_namespace
 
 #cloudriver 
-kubectl create  configmap clouddriverbomconfig -n $spinnaker_namespace --from-file=1.11.2/clouddriver.yml 
+oc create  configmap clouddriverbomconfig -n $spinnaker_namespace --from-file=1.12.1/clouddriver.yml 
 
 #deck
-kubectl create configmap deckbomconfig -n $spinnaker_namespace --from-file=1.11.2/settings.js
+oc create configmap deckbomconfig -n $spinnaker_namespace --from-file=1.12.1/settings.js
 
 #echo
-kubectl create configmap echobomconfig -n $spinnaker_namespace --from-file=1.11.2/echo.yml 
+oc create configmap echobomconfig -n $spinnaker_namespace --from-file=1.12.1/echo.yml 
 
 #fiat
-kubectl create configmap fiatbomconfig -n $spinnaker_namespace --from-file=1.11.2/fiat.yml
+oc create configmap fiatbomconfig -n $spinnaker_namespace --from-file=1.12.1/fiat.yml
 
 #front50
-kubectl create configmap front50bomconfig -n $spinnaker_namespace --from-file=1.11.2/front50.yml
+oc create configmap front50bomconfig -n $spinnaker_namespace --from-file=1.12.1/front50.yml
 
 #gate
-kubectl create configmap gatebomconfig -n $spinnaker_namespace --from-file=1.11.2/gate.yml
+oc create configmap gatebomconfig -n $spinnaker_namespace --from-file=1.12.1/gate.yml
 
 #igor
-kubectl create configmap igorbomconfig -n $spinnaker_namespace --from-file=1.11.2/igor.yml
+oc create configmap igorbomconfig -n $spinnaker_namespace --from-file=1.12.1/igor.yml
 
 #orca
-kubectl create configmap orcabomconfig -n $spinnaker_namespace --from-file=1.11.2/orca.yml
+oc create configmap orcabomconfig -n $spinnaker_namespace --from-file=1.12.1/orca.yml
 
 #rosco
-kubectl create configmap roscobomconfig -n $spinnaker_namespace --from-file=1.11.2/rosco.yml
-kubectl create configmap roscoimagebomconfig -n $spinnaker_namespace --from-file=1.11.2/images.yml
-kubectl create configmap roscopackerbomconfig -n $spinnaker_namespace --from-file=packer.tar.gz
+oc create configmap roscobomconfig -n $spinnaker_namespace --from-file=1.12.1/rosco.yml
+oc create configmap roscoimagebomconfig -n $spinnaker_namespace --from-file=1.12.1/images.yml
+oc create configmap roscopackerbomconfig -n $spinnaker_namespace --from-file=packer.tar.gz
 
 printf " \n  [****] Updating configmap [****]" 
 sed -i "s/SPINNAKER_ACCOUNT/$configmap_account/g" halconfigmap_template.yml
@@ -90,14 +99,14 @@ sed -i "s/MINIO_PASSWORD/$secret_access_key/" halconfigmap_template.yml
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
 printf '\n'
-kubectl apply -f halconfigmap_template.yml 
-kubectl create secret generic kubeconfig --from-file=$kube_path -n $spinnaker_namespace
-kubectl apply -f halyard_template.yml 
+oc apply -f halconfigmap_template.yml 
+oc create secret generic kubeconfig --from-file=$kube_path -n $spinnaker_namespace
+oc apply -f halyard_template.yml 
 
 printf "\n  [****]  Configuration is complete, please wait till for a few minutes before accessing the pod [****] "
 printf '\n'
 #rm -rf halyard_template.yml halconfigmap_template.yml minio-secret.yml minio.yml
-printf "\n  [****]  Please use wait a minute and then execute the  command to check the Deployed 'spin-halyard' Pod 'kubectl get pods -n spinnaker' [*****]"
+printf "\n  [****]  Please use wait a minute and then execute the  command to check the Deployed 'spin-halyard' Pod 'oc get pods -n spinnaker' [*****]"
 printf '\n'
 printf "\n  [****]  Please do a 'hal deploy apply' from the pod that has been deployed [****] "
 sleep 5
