@@ -48,7 +48,7 @@ data:
           accounts:
           - name: SPINNAKER_ACCOUNT
             requiredGroupMembership: []
-            providerVersion: V1
+            providerVersion: V2
             permissions: {}
             dockerRegistries: 
             - accountName: DOCKER_SPINNAKER
