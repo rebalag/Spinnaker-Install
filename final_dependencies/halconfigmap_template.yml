@@ -33,24 +33,7 @@ data:
           clusters: []
         dockerRegistry:
           enabled: false
-          accounts:
-          - name: DOCKER_SPINNAKER
-            requiredGroupMembership: []
-            providerVersion: V1
-            permissions: {}
-            address: https://example
-            username: dockerUSERNAME
-            password: dockerPASSWORD
-            email: fake.email@spinnaker.io
-            cacheIntervalSeconds: 30
-            clientTimeoutMillis: 60000
-            cacheThreads: 1
-            paginateSize: 100
-            sortTagsByDate: false
-            trackDigests: false
-            insecureRegistry: false
-            repositories: []
-          primaryAccount: DOCKER_SPINNAKER
+          accounts: []
         google:
           enabled: false
           accounts: []
