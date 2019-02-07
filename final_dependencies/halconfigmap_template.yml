@@ -61,7 +61,7 @@ data:
             omitKinds: []
             customResources: []
             cachingPolicies: []
-            kubeconfigFile: /root/.kube/config
+            kubeconfigFile: /home/builder/staging/.kube/config
             checkPermissionsOnStartup: true
             oauthScopes: []
             oAuthScopes: []
