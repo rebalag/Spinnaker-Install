@@ -1,0 +1,260 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: spin-halyard
+  namespace: SPINNAKER_NAMESPACE 
+  labels:
+    app: spin
+    stack: halyard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spin
+      stack: halyard
+  template:
+    metadata:
+      labels:
+        app: spin
+        stack: halyard
+    spec:
+      containers:
+      - name: halyard-daemon
+        # todo - make :stable or digest of :stable
+        image: example/halyard:stable
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        args:
+        - -c
+        - "cp -R /home/builder/staging/.hal /home/spinnaker/ && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/spinnaker/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
+        readinessProbe:
+          exec:
+            command:
+            - wget
+            - -q
+            - --spider
+            - http://localhost:8064/health
+        ports:
+        - containerPort: 8064
+        volumeMounts:
+        - name: halconfig
+          mountPath: /home/builder/staging/.hal/config
+          subPath: config
+        - name: kubeconfig
+          mountPath: /home/builder/staging/.kube/config
+          subPath: config
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/deck.yml
+          subPath: deck.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/gate.yml
+          subPath: gate.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/igor.yml
+          subPath: igor.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/igor-local.yml
+          subPath: igor-local.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/fiat.yml
+          subPath: fiat.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/rosco.yml
+          subPath: rosco.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/front50-local.yml
+          subPath: front50-local.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/front50.yml
+          subPath: front50.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
+          subPath: redis.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver-bootstrap.yml
+          subPath: clouddriver-bootstrap.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver.yml
+          subPath: clouddriver.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/echo.yml
+          subPath: echo.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/orca.yml
+          subPath: orca.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
+          subPath: orca-bootstrap.yml
+        - name: bomconfig
+          mountPath: /home/builder/staging/.hal/.boms/bom/bom.yml
+          subPath: bom.yml 
+        - name: clouddriverbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/clouddriver/clouddriver.yml
+          subPath: clouddriver.yml
+        - name: deckbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/deck/settings.js
+          subPath: settings.js
+        - name: echobomconfig
+          mountPath: /home/builder/staging/.hal/.boms/echo/echo.yml
+          subPath: echo.yml
+        - name: fiatbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/fiat/fiat.yml
+          subPath: fiat.yml
+        - name: front50bomconfig
+          mountPath: /home/builder/staging/.hal/.boms/front50/front50.yml
+          subPath: front50.yml
+        - name: gatebomconfig
+          mountPath: /home/builder/staging/.hal/.boms/gate/gate.yml
+          subPath: gate.yml
+        - name: igorbomconfig
+          mountPath: /home/builder/staging/.hal/.boms/igor/igor.yml
+          subPath: igor.yml
+        - name: orcabomconfig
+          mountPath: /home/builder/staging/.hal/.boms/orca/orca.yml
+          subPath: orca.yml
+        - name: roscobomconfig
+          mountPath: /home/builder/staging/.hal/.boms/rosco/rosco.yml
+          subPath: rosco.yml
+        - name: roscoimagebomconfig
+          mountPath: /home/builder/staging/.hal/.boms/rosco/images.yml
+          subPath: images.yml
+        - name: roscobomconfig
+          mountPath: /home/builder/staging/.hal/.boms/rosco/packer/packer.tar.gz
+          subPath: packer.tar.gz
+        - name: halyardlocalconfig
+          mountPath: /home/builder/staging/.hal/halyard-local.yml
+          subPath: halyard-local.yml
+      volumes:
+      - name: halconfig
+        configMap:
+          defaultMode: 420
+          name: halconfig
+      - name: kubeconfig
+        secret:
+          defaultMode: 420
+          secretName: kubeconfig
+      - name: artifactsconfig
+        configMap: 
+          defaultMode: 420
+          name: artifactsconfig
+      - name: bomconfig
+        configMap: 
+          defaultMode: 420
+          name: bomconfig
+      - name: clouddriverbomconfig
+        configMap: 
+          defaultMode: 420
+          name: clouddriverbomconfig
+      - name: deckbomconfig
+        configMap: 
+          defaultMode: 420
+          name: deckbomconfig
+      - name: echobomconfig
+        configMap: 
+          defaultMode: 420
+          name: echobomconfig
+      - name: fiatbomconfig
+        configMap: 
+          defaultMode: 420
+          name: fiatbomconfig
+      - name: front50bomconfig
+        configMap: 
+          defaultMode: 420
+          name: front50bomconfig
+      - name: gatebomconfig
+        configMap: 
+          defaultMode: 420
+          name: gatebomconfig
+      - name: igorbomconfig
+        configMap: 
+          defaultMode: 420
+          name: igorbomconfig
+      - name: orcabomconfig
+        configMap: 
+          defaultMode: 420
+          name: orcabomconfig
+      - name: roscobomconfig
+        configMap: 
+          defaultMode: 420
+          name: roscobomconfig
+      - name: roscoimagebomconfig
+        configMap:
+          defaultMode: 420
+          name: roscoimagebomconfig
+      - name: roscopackerbomconfig
+        configMap:
+          defaultMode: 420
+          name: roscopackerbomconfig
+      - name: halyardlocalconfig
+        configMap: 
+          defaultMode: 420
+          name: halyardlocalconfig
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: spin-halyard
+  namespace: SPINNAKER_NAMESPACE
+spec:
+  ports:
+    - port: 8064
+      targetPort: 8064
+      protocol: TCP
+  selector:
+    app: spin
+    stack: halyard
+  type: ClusterIP
+  
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: SPINNAKER_NAMESPACE
+  name: artifactsconfig
+data:
+  clouddriver-bootstrap.yml: |
+    artifactId: example/clouddriver:sc-test
+  clouddriver.yml: |
+    artifactId: example/clouddriver:sc-test
+  echo.yml: |
+    artifactId: example/echo:sc-test
+  front50.yml: |
+    artifactId: example/front50:sc-test
+  orca-bootstrap.yml: |
+    artifactId: example/orca:sc-test
+  orca.yml: |
+    artifactId: example/orca:sc-test
+  rosco.yml: |
+    artifactId: example/rosco:sc-test
+  igor.yml: |
+    artifactId: example/igor:sc-test
+  fiat.yml: |
+    artifactId: example/fiat:sc-test
+    enabled: true
+  front50-local.yml: |
+    spinnaker.s3.versioning: false
+  redis.yml: |
+    artifactId: example/redis:v3
+    enabled: true
+  gate.yml: |
+    artifactId: example/gate:sc-test
+    enabled: true
+    overrideBaseUrl: redis://redis-master:6379
+  deck.yml: |
+    artifactId: example/deck:sc-test
+    host: 0.0.0.0
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: SPINNAKER_NAMESPACE
+  name: halyardlocalconfig
+data:
+  halyard-local.yml: |
+    spinnaker.config.input.gcs.enabled: false
+
