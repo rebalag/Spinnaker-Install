@@ -19,6 +19,7 @@ oc create namespace $spinnaker_namespace
 oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
 oc adm policy add-scc-to-user anyuid -z builder -n $spinnaker_namespace
 oc adm policy add-scc-to-user anyuid -z deployer -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z spinnaker -n $spinnaker_namespace
 
 
 #Setting up the Minio Storage for the Deployment
