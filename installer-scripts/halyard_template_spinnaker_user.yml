@@ -217,19 +217,19 @@ metadata:
   name: artifactsconfig
 data:
   clouddriver-bootstrap.yml: |
-    artifactId: example/clouddriver:sc-test
+    artifactId: example/clouddriver:_TAG_
   clouddriver.yml: |
-    artifactId: example/clouddriver:sc-test
+    artifactId: example/clouddriver:_TAG_
   echo.yml: |
-    artifactId: example/echo:sc-test
+    artifactId: example/echo:_TAG_
   front50.yml: |
-    artifactId: example/front50:sc-test
+    artifactId: example/front50:_TAG_
   orca-bootstrap.yml: |
-    artifactId: example/orca:sc-test
+    artifactId: example/orca:_TAG_
   orca.yml: |
-    artifactId: example/orca:sc-test
+    artifactId: example/orca:_TAG_
   rosco.yml: |
-    artifactId: example/rosco:sc-test
+    artifactId: example/rosco:_TAG_
   igor.yml: |
     artifactId: example/igor:sc-test
   fiat.yml: |
@@ -241,11 +241,11 @@ data:
     artifactId: example/redis:v3
     enabled: true
   gate.yml: |
-    artifactId: example/gate:sc-test
+    artifactId: example/gate:_TAG_
     enabled: true
     host: 0.0.0.0
   deck.yml: |
-    artifactId: example/deck:sc-test
+    artifactId: example/deck:_TAG_
     host: 0.0.0.0
 ---
 
