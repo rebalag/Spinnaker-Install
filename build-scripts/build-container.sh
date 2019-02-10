@@ -42,7 +42,7 @@ sudo docker build -t $1/kayenta:$2 -f Dockerfile.slim .
 sudo docker push $1/kayenta:$2
 cd ..
 cd halyard
-sudo docker build -t $1/halyard:$2 -f Dockerfile.slim .
+sudo docker build -t $1/halyard:$2 -f Dockerfile.local .
 sudo docker push $1/halyard:$2
 cd ..
 cd front50
