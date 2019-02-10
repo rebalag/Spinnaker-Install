@@ -27,7 +27,7 @@ spec:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /home/spinnaker/ && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/spinnaker/.hal/.boms/bom/1.12.1.yml; sh /opt/run_halyard.sh "
+        - "cp -R /home/builder/staging/.hal /home/spinnaker/ && cp -R /home/builder/staging/.kube/config /home/spinnaker/.kube/config && cp -R /home/builder/staging/.hal/halyard-local.yml /opt/halyard/config && mv /home/builder/.hal/.boms/bom/bom.yml /home/spinnaker/.hal/.boms/bom/1.12.1.yml; /opt/halyard/bin/halyard "
         readinessProbe:
           exec:
             command:
@@ -243,7 +243,7 @@ data:
   gate.yml: |
     artifactId: example/gate:sc-test
     enabled: true
-    overrideBaseUrl: redis://redis-master:6379
+    host: 0.0.0.0
   deck.yml: |
     artifactId: example/deck:sc-test
     host: 0.0.0.0
