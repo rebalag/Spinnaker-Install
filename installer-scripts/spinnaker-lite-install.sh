@@ -45,6 +45,18 @@ sed -i "s#_TAG_#$dockertag#g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 
+docker pull $dockerusername/halyard:$dockertag
+docker pull $dockerusername/clouddriver:$dockertag
+docker pull $dockerusername/deck:$dockertag
+docker pull $dockerusername/fiat:$dockertag
+docker pull $dockerusername/front50:$dockertag
+docker pull $dockerusername/igor:$dockertag
+docker pull $dockerusername/echo:$dockertag
+docker pull $dockerusername/gate:$dockertag
+docker pull $dockerusername/rosco:$dockertag
+docker pull $dockerusername/orca:$dockertag
+
+
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
 printf '\n'
