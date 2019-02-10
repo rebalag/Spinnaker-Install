@@ -8,7 +8,7 @@ printf '\n'
 
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
 printf "\n"
-
+read -p "  [****] Enter the Docker image Common Tag Name :: " dockertag
 printf '\n'
 
 read -p "  [****] Enter the namespace where you want to deploy Spinnaker and Minio: " spinnaker_namespace
@@ -41,6 +41,7 @@ printf '\n'
 oc create  -f minio_template.yml
 
 sed -i "s#example#$dockerusername#g" halyard_template.yml
+sed -i "s#_TAG_#$dockertag#g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 
