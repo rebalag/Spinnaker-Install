@@ -1,4 +1,4 @@
-# Spinnaker-Install
+# Spinnaker-Install specific to SCBank
 Build system requirement: (Base OS : Ubuntu 14,16 and CentOS 7)
 Prereq:
 1. java 1.8
