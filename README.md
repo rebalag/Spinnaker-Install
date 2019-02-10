@@ -71,6 +71,7 @@ Build implementation:
 - after completion of download-spinnaker-master.sh script, run build-spinnaker.sh
 - go to clouddriver folder
 - remove following lines from (clouddriver) Dockerfile.slim file:
+		
 		RUN apk --no-cache add --update bash wget unzip 'python2>2.7.9' && \
 		  wget -nv https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip && \
 		  unzip -qq google-cloud-sdk.zip -d /opt && \
