@@ -1,0 +1,159 @@
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: spin-halyard
+  namespace: SPINNAKER_NAMESPACE 
+  labels:
+    app: spin
+    stack: halyard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spin
+      stack: halyard
+  template:
+    metadata:
+      labels:
+        app: spin
+        stack: halyard
+    spec:
+      containers:
+      - name: halyard-daemon
+        # todo - make :stable or digest of :stable
+        image: example/halyard:stable
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        args:
+        - -c
+        - "cp -R /home/builder/staging/.hal /home/builder/.hal;sh /opt/run_halyard.sh"
+        readinessProbe:
+          exec:
+            command:
+            - wget
+            - -q
+            - --spider
+            - http://localhost:8064/health
+        ports:
+        - containerPort: 8064
+        volumeMounts:
+        - name: halconfig
+          mountPath: /home/builder/staging/.hal/config
+          subPath: config
+        - name: kubeconfig
+          mountPath: /home/builder/staging/.kube/config
+          subPath: config
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/deck.yml
+          subPath: deck.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/gate.yml
+          subPath: gate.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/igor.yml
+          subPath: igor.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/igor-local.yml
+          subPath: igor-local.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/fiat.yml
+          subPath: fiat.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/rosco.yml
+          subPath: rosco.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/profiles/front50-local.yml
+          subPath: front50-local.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/front50.yml
+          subPath: front50.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
+          subPath: redis.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver-bootstrap.yml
+          subPath: clouddriver-bootstrap.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver.yml
+          subPath: clouddriver.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/echo.yml
+          subPath: echo.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/orca.yml
+          subPath: orca.yml
+        - name: artifactsconfig
+          mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
+          subPath: orca-bootstrap.yml
+      volumes:
+      - name: halconfig
+        configMap:
+          defaultMode: 420
+          name: halconfig
+      - name: kubeconfig
+        secret:
+          defaultMode: 420
+          secretName: kubeconfig
+      - name: artifactsconfig
+        configMap: 
+          defaultMode: 420
+          name: artifactsconfig
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: spin-halyard
+  namespace: SPINNAKER_NAMESPACE 
+spec:
+  ports:
+    - port: 8064
+      targetPort: 8064
+      protocol: TCP
+  selector:
+    app: spin
+    stack: halyard
+  type: ClusterIP
+  
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: SPINNAKER_NAMESPACE
+  name: artifactsconfig
+data:
+  clouddriver-bootstrap.yml: |
+    artifactId: example/clouddriver:4.2.0-20181220153244
+  clouddriver.yml: |
+    artifactId: example/clouddriver:4.2.0-20181220153244
+  echo.yml: |
+    artifactId: example/echo:2.2.2-20181219133919
+  front50.yml: |
+    artifactId: example/front50:0.14.0-20181207134351
+  orca-bootstrap.yml: |
+    artifactId: example/orca:2.0.1-20181220142907
+  orca.yml: |
+    artifactId: example/orca:2.0.1-20181220142907
+  rosco.yml: |
+    artifactId: example/rosco:0.8.2-20181221095200
+  igor.yml: |
+    artifactId: example/igor:1.0.0-20181207134351
+  fiat.yml: |
+    artifactId: example/fiat:1.3.0-20181207134351
+    enabled: true
+    skipLifeCycleManagement: false
+  front50-local.yml: |
+    spinnaker.s3.versioning: false
+  redis.yml: |
+    artifactId: example/redis:v3
+    enabled: true
+  gate.yml: |
+    artifactId: example/gate:1.4.0-20181217192627
+    host: 0.0.0.0
+  deck.yml: |
+    artifactId: example/deck:2.6.1-20181220153244 
+    host: 0.0.0.0
