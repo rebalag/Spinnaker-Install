@@ -6,7 +6,6 @@ echo "Current Time is : $(date)"
 
 
 echo The Spinnaker will be deployed in : $6 platform
-# echo The Minio PVC Size: $3
 
 echo The Namespace where you want to Deploy the Spinnaker and its Related Service is : $5
 
@@ -39,7 +38,7 @@ base2=$(echo -ne "$1" |base64)
 printf "\n [****] Fetching and Updating the Minio Secret [****] "
 printf '\n'
 
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install-4oes/minio_template4oes.yml -o minio_template.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/oes/oes/minio_template4oes.yml -o minio_template.yml
 
 if [ $? == 0 ]
 then
@@ -64,21 +63,21 @@ else
 echo Minio deployment failed
 fi
 
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install-4oes/halyard_template4oes.yml -o halyard_template.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/oes/oes/halyard_template4oes.yml -o halyard_template.yml
 
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install-4oes/halconfigmap_template4oes.yml -o halconfigmap_template.yml
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/oes/oes/halconfigmap_template4oes.yml -o halconfigmap_template.yml
 
 printf '\n'
 # pulling and pushing images
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install-4oes/extract.py -o extract.py
+curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/oes/oes/extract4oes.py -o extract.py
 
 python extract.py $dockerusername
 
 sed -i "s#example#$dockerusername#g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$5/g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$5/g" halconfigmap_template.yml
-sed -i "s/SPINNAKER_VERSION/$7/g" halconfigmap_template.yml
+sed -i "s/SPINNAKER_VERSION/$7Gi/g" halconfigmap_template.yml
 
 # Applying the Halyard Pod
 printf "\n [****] Configuring the Dependencies [****]"
