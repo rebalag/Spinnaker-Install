@@ -9,18 +9,16 @@ printf '\n'
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerusername
 #read -sp "  [****] Enter the Docker password :: " dockerpassword
 printf "\n"
+read -p "  [****] Enter the Namespace where you want to Deploy Spinnaker and related services :" spinnaker_namespace
 
-#sudo docker login -u dockerusername -p dockerpassword
 
-#if [ $? -eq 0 ]
-#then
-#   printf "Successfully Logged into Docker"
-#else 
-#   printf " Check  your username and password and re-deploy the script"
-#   exit 1
-#fi
 printf '\n'
-kubectl create namespace spinnaker
+oc create namespace $spinnaker_namespace
+#Adding root permissions to the service accounts
+oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z builder -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z deployer -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z spinnaker -n $spinnaker_namespace
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
 printf '\n'
@@ -29,24 +27,24 @@ read -p "  [****] Enter the Minio Secret Access Key [Secret key should be in bet
 printf '\n'
 base1=$(echo -ne "$access_key" |base64)
 base2=$(echo -ne "$secret_access_key" |base64)
-printf "\n   [****]  Fetching and Updating the Minio Secret [****] "
-printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio-secret.yml -o minio-secret.yml
-printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio.yml -o minio.yml
-printf '\n'
+#printf "\n   [****]  Fetching and Updating the Minio Secret [****] "
+#printf '\n'
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio-secret.yml -o minio-secret.yml
+#printf '\n'
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/minio.yml -o minio.yml
+#printf '\n'
 sed -i "s/base64convertedaccesskey/$base1/" minio-secret.yml
 sed -i "s/base64convertedSecretAccesskey/$base2/" minio-secret.yml
-kubectl create -n spinnaker -f minio-secret.yml
-kubectl create -n spinnaker -f minio.yml
+oc create -n spinnaker_namespace -f minio-secret.yml
+oc create -n spinnaker_namespace -f minio.yml
 
 #Fork the files from Github
 printf "\n  [****] Fetching the files for the Halyard Template and the ConfigMap for the deployment  [****]" 
 printf '\n'
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halconfigmap_template.yml -o halconfigmap_template.yml
-printf '\n' 
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halyard_template.yml -o halyard_template.yml
-printf '\n'
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halconfigmap_template.yml -o halconfigmap_template.yml
+#printf '\n' 
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi/spinnaker-oc-install/halyard_template.yml -o halyard_template.yml
+#printf '\n'
 
 # pulling and pushing images
 #curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/citi
@@ -55,7 +53,6 @@ printf '\n'
 printf '\n'
 printf " UserName : $dockerusername"
 #python extract.py $dockerusername
-sed -i "s#example#$dockerusername#g" halyard_template.yml
 
 #Applying the Halyard Pod
 printf "\n  [****] Configuring the Dependencies [****]"
@@ -114,8 +111,9 @@ sed -i "s/SPINNAKER_ACCOUNT/$configmap_account/g" halconfigmap_template.yml
 
 sed -i "s/opsmx123456/$access_key/" halconfigmap_template.yml
 sed -i "s/opsmx_123456/$secret_access_key/" halconfigmap_template.yml
-#sed -i "s/spin-gate.abc.com/$gateurl/" halconfigmap_template.yml
-#sed -i "s/spin-deck.abc.com/$deckurl/" halconfigmap_template.yml
+sed -i "s#example#$dockerusername#g" halyard_template.yml
+sed -i "s#spinnaker#$spinnaker_namespace#g" halyard_template.yml
+sed -i "s#spinnaker#$spinnaker_namespace#g" halconfigmap_template.yml
 
 #Applying Halconfig template and Halyard Deployment Pod 
 printf "\n  [****] Applying The Halyard local BOM [****] "
