@@ -11,7 +11,8 @@ read -p "  [****] Enter the namespace where you want to deploy Spinnaker and Min
 oc create namespace $spinnaker_namespace
 oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
 oc adm policy add-scc-to-user anyuid -z builder -n $spinnaker_namespace
-
+oc adm policy add-scc-to-user anyuid -z deployer -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z spinnaker -n $spinnaker_namespace
 #Reading the Username and Repository for Docker
 read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] :: " dockerrepoName
 printf '\n'
@@ -31,8 +32,6 @@ sed -i "s#example#$dockerrepoName#g" minio_template.yml
 printf '\n'
 oc create  -f minio_template.yml
 
-oc adm policy remove-scc-from-user anyuid -z default -n $spinnaker_namespace
-oc adm policy remove-scc-from-user anyuid -z builder -n $spinnaker_namespace
 
 #Replacing the Spinnaker Namespace in halyard
 sed -i "s#example#$dockerrepoName#g" halyard_template.yml
