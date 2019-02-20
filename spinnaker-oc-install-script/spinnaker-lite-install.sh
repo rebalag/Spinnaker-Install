@@ -11,18 +11,19 @@ read -p "  [****] Enter the Docker registory/username [Ex: docker.io/opsmx11] ::
 #read -sp "  [****] Enter the Docker password :: " dockerpassword
 printf "\n"
 
-#sudo docker login -u dockerusername -p dockerpassword
-
-#if [ $? -eq 0 ]
-#then
-#   printf "Successfully Logged into Docker"
-#else 
-#   printf " Check  your username and password and re-deploy the script"
-#   exit 1
-#fi
 printf '\n'
 read -p "  [****] Enter the Namespace where you want to Deploy Spinnaker and related services :" spinnaker_namespace
-kubectl create namespace $spinnaker_namespace
+
+
+oc create namespace $spinnaker_namespace
+
+#Adding root permissions to the service accounts
+oc adm policy add-scc-to-user anyuid -z default -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z builder -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z deployer -n $spinnaker_namespace
+oc adm policy add-scc-to-user anyuid -z spinnaker -n $spinnaker_namespace
+
+
 #Setting up the Minio Storage for the Deployment
 printf "\n  [****] Setting up the Storage for the Spinnaker Deployment [****]" 
 printf '\n'
@@ -38,7 +39,7 @@ printf '\n'
 sed -i "s/base64convertedaccesskey/$base1/" minio_template.yml
 sed -i "s/base64convertedSecretAccesskey/$base2/" minio_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" minio_template.yml
-kubectl create -n $spinnaker_namespace -f minio_template.yml
+oc create -n $spinnaker_namespace -f minio_template.yml
 
 #Fork the files from Github
 printf "\n  [****] Fetching the files for the Halyard Template and the ConfigMap for the deployment  [****]" 
@@ -49,10 +50,12 @@ curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-
 printf '\n'
 
 # pulling and pushing images
-curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
-printf '\n'
+#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/extract.py -o extract.py
+#printf '\n'
+#python extract.py $dockerusername
 
-python extract.py $dockerusername
+#changing the values in halyard-template and halconfig
+
 sed -i "s#example#$dockerusername#g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halyard_template.yml
 sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
@@ -72,21 +75,17 @@ sed -i "s/SPINNAKER_NAMESPACE/$spinnaker_namespace/g" halconfigmap_template.yml
 sed -i "s/MINIO_USER/$access_key/" halconfigmap_template.yml
 sed -i "s/MINIO_PASSWORD/$secret_access_key/" halconfigmap_template.yml
 
-#Applying Halconfig template and Halyard Deployment Pod 
-#printf "\n  [****] Applying The Halyard local BOM [****] "
-#curl https://raw.githubusercontent.com/OpsMx/Spinnaker-Install/master/spinnaker-oc-install/1.11.2-bom -o 1.11.2.yml
-#kubectl create configmap bomconfig --from-file=1.11.2.yml -n $spinnaker_namespace
 
 printf "\n  [****] Applying The Halyard ConfigMap, Secrets and the Halyard Deployment Pod [****] "
 printf '\n'
-kubectl apply -f halconfigmap_template.yml -n $spinnaker_namespace
-kubectl create secret generic kubeconfig --from-file=$kube_path -n $spinnaker_namespace
-kubectl apply -f halyard_template.yml -n $spinnaker_namespace
+oc apply -f halconfigmap_template.yml -n $spinnaker_namespace
+oc create secret generic kubeconfig --from-file=$kube_path -n $spinnaker_namespace
+oc apply -f halyard_template.yml -n $spinnaker_namespace
 
 printf "\n  [****]  Configuration is complete, please wait till for a few minutes before accessing the pod [****] "
 printf '\n'
 #rm -rf halyard_template.yml halconfigmap_template.yml minio-secret.yml minio.yml
-printf "\n  [****]  Please use wait a minute and then execute the  command to check the Deployed 'spin-halyard' Pod 'kubectl get pods -n spinnaker' [*****]"
+printf "\n  [****]  Please use wait a minute and then execute the  command to check the Deployed 'spin-halyard' Pod 'oc get pods -n spinnaker' [*****]"
 printf '\n'
 printf "\n  [****]  Please do a 'hal deploy apply' from the pod that has been deployed [****] "
 sleep 5
