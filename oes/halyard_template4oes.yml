@@ -22,13 +22,13 @@ spec:
       containers:
       - name: halyard-daemon
         # todo - make :stable or digest of :stable
-        image: example/halyard:stable
+        image: example/halyard:_TAG_
         imagePullPolicy: IfNotPresent
         command:
         - /bin/sh
         args:
         - -c
-        - "cp -R /home/builder/staging/.hal /home/builder/.hal;sh /opt/run_halyard.sh"
+        - "cp -R /home/builder/staging/.hal /root/.hal;sh /opt/run_halyard.sh"
         readinessProbe:
           exec:
             command:
@@ -73,9 +73,6 @@ spec:
           mountPath: /home/builder/staging/.hal/default/service-settings/redis.yml
           subPath: redis.yml
         - name: artifactsconfig
-          mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver-bootstrap.yml
-          subPath: clouddriver-bootstrap.yml
-        - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/clouddriver.yml
           subPath: clouddriver.yml
         - name: artifactsconfig
@@ -84,9 +81,6 @@ spec:
         - name: artifactsconfig
           mountPath: /home/builder/staging/.hal/default/service-settings/orca.yml
           subPath: orca.yml
-        - name: artifactsconfig
-          mountPath: /home/builder/staging/.hal/default/service-settings/orca-bootstrap.yml
-          subPath: orca-bootstrap.yml
       volumes:
       - name: halconfig
         configMap:
@@ -126,16 +120,12 @@ metadata:
   namespace: SPINNAKER_NAMESPACE
   name: artifactsconfig
 data:
-  clouddriver-bootstrap.yml: |
-    artifactId: example/clouddriver:4.2.0-20181220153244
   clouddriver.yml: |
-    artifactId: example/clouddriver:4.2.0-20181220153244
+    artifactId: example/clouddriver:_TAG_
   echo.yml: |
     artifactId: example/echo:2.2.2-20181219133919
   front50.yml: |
     artifactId: example/front50:0.14.0-20181207134351
-  orca-bootstrap.yml: |
-    artifactId: example/orca:2.0.1-20181220142907
   orca.yml: |
     artifactId: example/orca:2.0.1-20181220142907
   rosco.yml: |
