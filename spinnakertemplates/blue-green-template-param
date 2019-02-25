@@ -2,6 +2,19 @@ configuration:
   concurrentExecutions:
     limitConcurrent: true
     parallel: false  
+variables:
+- name: k8-account
+  description: Required for deployment
+  defaultValue: my-v2-account
+- name: service-name
+  description: Loadbalancer service name
+  defaultValue: restapp-lb
+- name: docker-image
+  description: Required for deployment
+  defaultValue: docker.io/opsmx11/restapp
+- name: replicaset-name
+  description: Replicaset created as part of deployment
+  defaultValue: restapp
 id: planet-bluegreendeploy-dup
 metadata:
   description: This template does not have a description
@@ -12,7 +25,7 @@ protect: false
 schema: "1"
 stages:
 - config:
-    account: privilege-v2-account
+    account: {{ k8-account }}
     cloudProvider: kubernetes
     manifests:
     - apiVersion: apps/v1
@@ -20,7 +33,7 @@ stages:
       metadata:
         annotations:
           strategy.spinnaker.io/max-version-history: "2"
-          traffic.spinnaker.io/load-balancers: '["service restapp-service"]'
+          traffic.spinnaker.io/load-balancers: '["service {{ service-name }}"]'
         labels:
           tier: frontend
         name: frontend
@@ -36,7 +49,7 @@ stages:
               tier: frontend
           spec:
             containers:
-            - image: docker.io/opsmx11/restapp
+            - image: {{ docker-image }}
               name: frontend
     moniker:
       app: planet
@@ -65,10 +78,10 @@ stages:
   name: Verify Green
   type: manualJudgment
 - config:
-    account: privilege-v2-account
+    account: {{ k8-account }}
     cloudProvider: kubernetes
     location: default
-    manifestName: replicaSet opsmx-restapp-5c5dc99b47
+    manifestName: replicaSet {{ replicaset-name }}
     mode: static
     numRevisionsBack: 1
     stageEnabled:
@@ -82,7 +95,7 @@ stages:
   name: Undo Rollout (Manifest)
   type: undoRolloutManifest
 - config:
-    account: privilege-v2-account
+    account: {{ k8-account }}
     app: planet
     cloudProvider: kubernetes
     cluster: replicaSet frontend
