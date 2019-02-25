@@ -14,8 +14,6 @@ stages:
 - config:
     account: privilege-v2-account
     cloudProvider: kubernetes
-    manifestArtifactAccount: bitbucket-artifact-account
-    manifestArtifactId: 5dcd03a5-a703-4694-927c-48415379ce65
     manifests:
     - apiVersion: apps/v1
       kind: ReplicaSet
@@ -45,8 +43,6 @@ stages:
     relationships:
       loadBalancers: []
       securityGroups: []
-    requiredArtifactIds:
-    - 84e35adf-9079-4de7-ba62-ba99237b9920
     source: text
   id: deployManifest6
   inheritanceControl: {}
