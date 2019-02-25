@@ -56,7 +56,7 @@ data:
             omitKinds: []
             customResources: []
             cachingPolicies: []
-            kubeconfigFile: /home/builder/staging/.kube/config
+            kubeconfigFile: /root/.kube/config
             oauthScopes: []
             oAuthScopes: []
             onlySpinnakerManaged: false
