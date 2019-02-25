@@ -3,16 +3,16 @@ configuration:
     limitConcurrent: true
     parallel: false  
 variables:
-- name: k8-account
+- name: k8account
   description: Required for deployment
   defaultValue: my-v2-account
-- name: service-name
+- name: servicename
   description: Loadbalancer service name
   defaultValue: restapp-lb
-- name: docker-image
+- name: dockerimage
   description: Required for deployment
   defaultValue: docker.io/opsmx11/restapp
-- name: replicaset-name
+- name: replicasetname
   description: Replicaset created as part of deployment
   defaultValue: restapp
 id: planet-bluegreendeploy-dup
@@ -25,7 +25,7 @@ protect: false
 schema: "1"
 stages:
 - config:
-    account: "{{ k8-account }}"
+    account: "{{ k8account }}"
     cloudProvider: kubernetes
     manifests:
     - apiVersion: apps/v1
@@ -49,7 +49,7 @@ stages:
               tier: frontend
           spec:
             containers:
-            - image: "{{ docker-image }}"
+            - image: "{{ dockerimage }}"
               name: frontend
     moniker:
       app: planet
@@ -78,10 +78,10 @@ stages:
   name: Verify Green
   type: manualJudgment
 - config:
-    account: "{{ k8-account }}"
+    account: "{{ k8account }}"
     cloudProvider: kubernetes
     location: default
-    manifestName: replicaSet "{{ replicaset-name }}"
+    manifestName: replicaSet "{{ replicasetname }}"
     mode: static
     numRevisionsBack: 1
     stageEnabled:
@@ -95,7 +95,7 @@ stages:
   name: Undo Rollout (Manifest)
   type: undoRolloutManifest
 - config:
-    account: "{{ k8-account }}"
+    account: "{{ k8account }}"
     app: planet
     cloudProvider: kubernetes
     cluster: replicaSet frontend
