@@ -1,0 +1,104 @@
+configuration:
+  concurrentExecutions:
+    limitConcurrent: true
+    parallel: false  
+id: planet-bluegreendeploy-dup
+metadata:
+  description: This template does not have a description
+  name: blue-green-dup3
+  scopes:
+  - global
+protect: false
+schema: "1"
+stages:
+- config:
+    account: privilege-v2-account
+    cloudProvider: kubernetes
+    manifestArtifactAccount: bitbucket-artifact-account
+    manifestArtifactId: 5dcd03a5-a703-4694-927c-48415379ce65
+    manifests:
+    - apiVersion: apps/v1
+      kind: ReplicaSet
+      metadata:
+        annotations:
+          strategy.spinnaker.io/max-version-history: "2"
+          traffic.spinnaker.io/load-balancers: '["service restapp-service"]'
+        labels:
+          tier: frontend
+        name: frontend
+        namespace: default
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            tier: frontend
+        template:
+          metadata:
+            labels:
+              tier: frontend
+          spec:
+            containers:
+            - image: docker.io/opsmx11/restapp
+              name: frontend
+    moniker:
+      app: planet
+    relationships:
+      loadBalancers: []
+      securityGroups: []
+    requiredArtifactIds:
+    - 84e35adf-9079-4de7-ba62-ba99237b9920
+    source: text
+  id: deployManifest6
+  inheritanceControl: {}
+  inject: {}
+  name: Deploy Green
+  type: deployManifest
+- config:
+    failPipeline: true
+    judgmentInputs:
+    - value: Success
+    - value: Fail
+    notifications: []
+    stageEnabled:
+      type: expression
+  dependsOn:
+  - disableManifest11
+  id: manualJudgment7
+  inheritanceControl: {}
+  inject: {}
+  name: Verify Green
+  type: manualJudgment
+- config:
+    account: privilege-v2-account
+    cloudProvider: kubernetes
+    location: default
+    manifestName: replicaSet opsmx-restapp-5c5dc99b47
+    mode: static
+    numRevisionsBack: 1
+    stageEnabled:
+      expression: ${#judgement('Verify Green') == 'Fail'}
+      type: expression
+  dependsOn:
+  - manualJudgment7
+  id: undoRolloutManifest10
+  inheritanceControl: {}
+  inject: {}
+  name: Undo Rollout (Manifest)
+  type: undoRolloutManifest
+- config:
+    account: privilege-v2-account
+    app: planet
+    cloudProvider: kubernetes
+    cluster: replicaSet frontend
+    criteria: second_newest
+    kind: replicaSet
+    location: default
+    manifestName: ' '
+    mode: dynamic
+  dependsOn:
+  - deployManifest6
+  id: disableManifest11
+  inheritanceControl: {}
+  inject: {}
+  name: Disable (Manifest)
+  type: disableManifest
