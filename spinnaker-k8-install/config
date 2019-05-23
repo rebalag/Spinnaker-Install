@@ -75,7 +75,7 @@ deploymentConfigurations:
         omitKinds: []
         customResources: []
         cachingPolicies: []
-        kubeconfigFile: {{ kubeconfiglocation }} // example - /home/opsmx/.kube/config
+        kubeconfigFile: {{ kubeconfiglocation }} // example - /home/$USER/.kube/config
         oauthScopes: []
         oAuthScopes: []
         onlySpinnakerManaged: false
@@ -121,8 +121,8 @@ deploymentConfigurations:
       rootFolder: front50
       region: us-west-1
       endpoint: http://minio-service:9000
-      accessKeyId: opsmx123456 {{ specified in the minio configMap}}
-      secretAccessKey: opsmx123456 {{ specified in the minio configMap }}
+      accessKeyId: foobar123456 {{ specified in the minio configMap}}
+      secretAccessKey: foobar123456 {{ specified in the minio configMap }}
     oracle: {}
   features:
     auth: false
@@ -152,9 +152,9 @@ deploymentConfigurations:
       enabled: true
       masters:
       - name: jenkins-master
-        address: {{ jenkinsaddress }} //example - http://35.211.30.238:8181/jenkins
-        username: {{ jenkinsuser }} //example - opsmx
-        password: {{ jenkinspassword }} // example - Bumblebee@123$
+        address: {{ jenkinsaddress }} //example - http://<IP>:<port>/jenkins
+        username: {{ jenkinsuser }} //example - foobar
+        password: {{ jenkinspassword }} // example - foobar@123
     travis:
       enabled: false
       masters: []
